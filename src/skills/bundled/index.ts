@@ -26,6 +26,10 @@ export function initBundledSkills(): void {
   require('./visualIllustrationAgent.js').registerVisualIllustrationAgentSkill()
   require('./comprehensiveCopywritingAgent.js').registerComprehensiveCopywritingAgentSkill()
   require('./parallelCopywritingAgents.js').registerParallelCopywritingAgentsSkill()
+  require('./xiaohongshuContentAgent.js').registerXiaohongshuContentAgentSkill()
+  require('./codeReviewAgents.js').registerPrototypeCodeReviewSkill()
+  require('./codeReviewAgents.js').registerProductionCodeReviewSkill()
+  require('./comicScriptAgent.js').registerComicScriptAgentSkill()
   if (feature('KAIROS') || feature('KAIROS_DREAM')) {
     const { registerDreamSkill } = require('./dream.js')
     registerDreamSkill()
