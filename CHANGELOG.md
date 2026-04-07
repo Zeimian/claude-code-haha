@@ -1,5 +1,19 @@
 # baoyu-sklls 系统更新日志
 
+## v1.3.0 - 知识漫画创作功能
+### 新增功能
+- `/knowledge-to-comic-agent` - 知识内容转深度漫画脚本
+  - 支持将知识内容转换为引人入胜的漫画形式
+  - 实现《Logicomix》式的叙事风格
+  - 支持复杂概念的可视化解释
+  - 实现非线性叙事结构
+  - 支持时空区分和动态表达
+  - 支持多层信息架构
+
+### 更新文档
+- 创建 `docs/knowledge-comic-creation-system.md`
+- 更新 `BAOYU_SYSTEM_OVERVIEW_V2.md` 添加新功能说明
+
 ## v1.2.0 - 漫画脚本生成功能
 ### 新增功能
 - `/comic-script-agent` - 文章故事转漫画脚本专业代理

@@ -30,6 +30,7 @@ export function initBundledSkills(): void {
   require('./codeReviewAgents.js').registerPrototypeCodeReviewSkill()
   require('./codeReviewAgents.js').registerProductionCodeReviewSkill()
   require('./comicScriptAgent.js').registerComicScriptAgentSkill()
+  require('./knowledgeToComicAgent.js').registerKnowledgeToComicAgentSkill()
   if (feature('KAIROS') || feature('KAIROS_DREAM')) {
     const { registerDreamSkill } = require('./dream.js')
     registerDreamSkill()
