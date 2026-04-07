@@ -31,6 +31,8 @@ export function initBundledSkills(): void {
   require('./codeReviewAgents.js').registerProductionCodeReviewSkill()
   require('./comicScriptAgent.js').registerComicScriptAgentSkill()
   require('./knowledgeToComicAgent.js').registerKnowledgeToComicAgentSkill()
+  require('./imageGenerationAgents.js').registerCartoonImageGeneratorSkill()
+  require('./imageGenerationAgents.js').registerCyberpunkImageGeneratorSkill()
   if (feature('KAIROS') || feature('KAIROS_DREAM')) {
     const { registerDreamSkill } = require('./dream.js')
     registerDreamSkill()

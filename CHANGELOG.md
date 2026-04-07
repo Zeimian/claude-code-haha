@@ -1,5 +1,20 @@
 # baoyu-sklls 系统更新日志
 
+## v1.4.0 - 图像生成技能
+### 新增功能
+- `/cartoon-image-generator` - 卡通风格图像生成代理
+  - 根据输入内容创建卡通风格的图像描述
+  - 适用于AI图像生成工具
+  - 体现毛泽东思想群众路线原则
+- `/cyberpunk-image-generator` - 赛博朋克风格图像生成代理
+  - 根据输入内容创建赛博朋克风格的图像描述
+  - 适用于AI图像生成工具
+  - 体现未来科技美学
+
+### 更新文档
+- 创建 `docs/image-generation-skills.md`
+- 更新 `BAOYU_SYSTEM_OVERVIEW_V2.md` 添加新功能说明
+
 ## v1.3.0 - 知识漫画创作功能
 ### 新增功能
 - `/knowledge-to-comic-agent` - 知识内容转深度漫画脚本
