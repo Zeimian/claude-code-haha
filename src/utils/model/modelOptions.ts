@@ -68,8 +68,8 @@ export function getDefaultOptionForUser(fastMode = false): ModelOption {
   const is3P = getAPIProvider() !== 'firstParty'
   return {
     value: null,
-    label: 'Default (recommended)',
-    description: `Use the default model (currently ${renderDefaultModelSetting(getDefaultMainLoopModelSetting())})${is3P ? '' : ` · ${formatModelPricing(COST_TIER_3_15)}`}`,
+    label: '默认（推荐）',
+    description: `当前默认模型: ${renderDefaultModelSetting(getDefaultMainLoopModelSetting())}${is3P ? '' : ` · ${formatModelPricing(COST_TIER_3_15)}`}`,
   }
 }
 
@@ -461,19 +461,23 @@ function getKnownModelOption(model: string): ModelOption | null {
 export function getModelOptions(fastMode = false): ModelOption[] {
   const options = getModelOptionsBase(fastMode)
 
-  // Add the custom model from the ANTHROPIC_CUSTOM_MODEL_OPTION env var
-  const envCustomModel = process.env.ANTHROPIC_CUSTOM_MODEL_OPTION
-  if (
-    envCustomModel &&
-    !options.some(existing => existing.value === envCustomModel)
-  ) {
-    options.push({
-      value: envCustomModel,
-      label: process.env.ANTHROPIC_CUSTOM_MODEL_OPTION_NAME ?? envCustomModel,
-      description:
-        process.env.ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION ??
-        `Custom model (${envCustomModel})`,
-    })
+  // Add custom models from ANTHROPIC_CUSTOM_MODEL_OPTION env vars
+  // Supports ANTHROPIC_CUSTOM_MODEL_OPTION, _2, _3, ... _9
+  const customSuffixes = ['', '_2', '_3', '_4', '_5', '_6', '_7', '_8', '_9']
+  for (const suffix of customSuffixes) {
+    const envCustomModel = process.env[`ANTHROPIC_CUSTOM_MODEL_OPTION${suffix}`]
+    if (
+      envCustomModel &&
+      !options.some(existing => existing.value === envCustomModel)
+    ) {
+      options.push({
+        value: envCustomModel,
+        label: process.env[`ANTHROPIC_CUSTOM_MODEL_OPTION${suffix}_NAME`] ?? envCustomModel,
+        description:
+          process.env[`ANTHROPIC_CUSTOM_MODEL_OPTION${suffix}_DESCRIPTION`] ??
+          `自定义模型 (${envCustomModel})`,
+      })
+    }
   }
 
   // Append additional model options fetched during bootstrap

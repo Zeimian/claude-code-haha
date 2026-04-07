@@ -1,13 +1,62 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# ============================================================
+# Claude Code Haha 启动脚本
+# 基于 Claude Code 泄露源码修复的本地可运行版本
+# 支持接入任意 Anthropic 兼容 API（阿里百炼、MiniMax 等）
+# ============================================================
 
+set -euo pipefail  # 遇到错误立即退出，未定义变量报错，管道失败时退出
+
+# 获取项目根目录（bin/ 的上一级）
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-# Force recovery CLI (simple readline REPL, no Ink TUI)
+# ============================================================
+# 降级模式：简化版 readline 交互（无 Ink TUI 界面）
+# 使用方式：CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/claude-haha
+# 适用场景：TUI 界面异常时的备用方案
+# ============================================================
 if [[ "${CLAUDE_CODE_FORCE_RECOVERY_CLI:-0}" == "1" ]]; then
   exec bun --env-file=.env ./src/localRecoveryCli.ts "$@"
 fi
 
-# Default: full CLI with Ink TUI
+# ============================================================
+# 默认模式：完整 TUI 交互界面（React + Ink 终端渲染）
+# 使用方式：./bin/claude-haha [参数]
+#
+# 常用参数（中文速查）：
+#   （无参数）              启动交互式 TUI 界面
+#   -p, --print "提示词"    无头模式：单次问答后退出（适合脚本/CI）
+#   --output-format text    输出格式：text（默认）/ json / stream-json
+#   -d, --debug             开启调试模式（显示详细日志）
+#   --verbose               开启详细输出
+#   --model <模型名>        指定本次会话使用的模型
+#   -c, --continue          继续上次对话
+#   -r, --resume [ID]       恢复指定会话（或打开会话选择器）
+#   -n, --name <名称>       给会话设置显示名称
+#   --bare                  精简模式：跳过 hooks、LSP、插件等
+#   --mcp-config <配置>     加载 MCP 服务器配置
+#   --allowed-tools <工具>  指定允许使用的工具列表
+#   --system-prompt <提示>  自定义系统提示词
+#   --thinking <模式>       思考模式：enabled / adaptive / disabled
+#   --dangerously-skip-permissions  跳过所有权限检查（仅限沙箱环境）
+#   -h, --help              显示帮助信息
+#
+# 交互式命令（TUI 内使用）：
+#   /model                  切换模型
+#   /init                   创建 CLAUDE.md 配置文件
+#   /commit                 提交代码
+#   /review                 代码审查
+#   /help                   查看所有可用命令
+#   /btw <问题>             在不中断当前任务的情况下问一个小问题
+#   /clear                  清空对话
+#   /compact                压缩对话历史（节省 token）
+#   /cost                   查看本次会话的 API 费用
+#   /status                 查看系统状态
+#   Esc                     中断当前 AI 生成
+#
+# 管道用法：
+#   echo "解释这段代码" | ./bin/claude-haha -p
+#   cat file.py | ./bin/claude-haha -p "请审查这段代码"
+# ============================================================
 exec bun --env-file=.env ./src/entrypoints/cli.tsx "$@"

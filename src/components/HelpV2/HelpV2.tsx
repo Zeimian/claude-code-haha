@@ -79,7 +79,7 @@ export function HelpV2(t0) {
   const customCommands = t3;
   let t4;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Tab key="general" title="general"><General /></Tab>;
+    t4 = <Tab key="general" title="快捷键"><General /></Tab>;
     $[8] = t4;
   } else {
     t4 = $[8];
@@ -89,7 +89,7 @@ export function HelpV2(t0) {
     tabs = [t4];
     let t5;
     if ($[16] !== builtinCommands || $[17] !== close || $[18] !== columns || $[19] !== maxHeight) {
-      t5 = <Tab key="commands" title="commands"><Commands commands={builtinCommands} maxHeight={maxHeight} columns={columns} title="Browse default commands:" onCancel={close} /></Tab>;
+      t5 = <Tab key="commands" title="命令"><Commands commands={builtinCommands} maxHeight={maxHeight} columns={columns} title="浏览可用命令:" onCancel={close} /></Tab>;
       $[16] = builtinCommands;
       $[17] = close;
       $[18] = columns;
