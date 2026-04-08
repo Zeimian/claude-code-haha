@@ -907,213 +907,1393 @@
 
     <script>
         // PRD 详情数据
-        const prdData = {
-            'p1': {
-                title: 'P1: OpenClaw办公室落地',
-                summary: '在办公室实施 OpenClaw 智能助手系统，提升员工生产力',
-                details: {
-                    目标: '在办公室部署 OpenClaw 智能助手，为员工提供 AI 辅助',
-                    关键功能: ['智能问答', '任务管理', '知识库搜索'],
-                    时间线: [
-                        { 阶段: '部署准备', 时间: '第1周' },
-                        { 阶段: '系统安装', 时间: '第2周' },
-                        { 阶段: '培训使用', 时间: '第3周' },
-                        { 阶段: '正式运行', 时间: '第4周' }
-                    ],
-                    风险: ['员工接受度', '系统稳定性']
-                }
+const prdData = {
+    p1: {
+        title: "P1: OpenClaw办公室落地",
+        subtitle: "项目概述 | 最高优先级 | 2周周期",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>产品定位：</strong>OpenClaw办公室落地项目旨在为公司全体员工提供本地化AI助手服务，建立统一的工作流程平台，提升团队工作效率和协作能力。</p>
+                    <br>
+                    <p><strong>核心价值：</strong></p>
+                    <ul>
+                        <li><strong>全员覆盖：</strong>实现所有同事的OpenClaw本地部署</li>
+                        <li><strong>统一标准：</strong>建立标准化部署流程和工作流程</li>
+                        <li><strong>培训赋能：</strong>提供系统化培训，提升使用能力</li>
+                        <li><strong>业务集成：</strong>与财务、运营、市场等业务系统集成</li>
+                    </ul>
+                `
             },
-            'p2': {
-                title: 'P2: LLM本地模型部署（财务分析系统）',
-                summary: '在本地部署大语言模型，构建财务分析助手',
-                details: {
-                    目标: '本地化部署财务分析系统，保护数据隐私',
-                    关键功能: ['财务报表分析', '趋势预测', '异常检测'],
-                    时间线: [
-                        { 阶段: '模型选型', 时间: '第1周' },
-                        { 阶段: '本地部署', 时间: '第2-3周' },
-                        { 阶段: '数据接入', 时间: '第4周' }
-                    ],
-                    风险: ['GPU资源需求', '数据质量']
-                }
+            {
+                title: "📊 现状分析",
+                content: `
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="label">已落地伙伴</div>
+                            <div class="value">4-6人</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">未落地伙伴</div>
+                            <div class="value">4-6人</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">环境类型</div>
+                            <div class="value">Mac/Windows混合</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">目标周期</div>
+                            <div class="value">2周内完成</div>
+                        </div>
+                    </div>
+                    <br>
+                    <p><strong>已落地伙伴情况：</strong></p>
+                    <ul>
+                        <li>功能正常，但使用不熟练</li>
+                        <li>基础对话功能和文档处理功能正常</li>
+                        <li>需要基础操作培训</li>
+                    </ul>
+                    <br>
+                    <p><strong>未落地伙伴情况：</strong></p>
+                    <ul>
+                        <li>硬件配置充足，满足部署要求</li>
+                        <li>Mac/Windows混合环境</li>
+                        <li>主要难点：环境差异、安装流程复杂、技术能力不足</li>
+                    </ul>
+                `
             },
-            'p3': {
-                title: 'P3: 小红书文案支持',
-                summary: '使用 AI 生成小红书平台营销文案',
-                details: {
-                    目标: '提高小红书内容产出效率',
-                    关键功能: ['标题生成', '正文创作', '配图建议'],
-                    时间线: [
-                        { 阶段: '工具搭建', 时间: '第1-2周' },
-                        { 阶段: '内容测试', 时间: '第3-4周' },
-                        { 阶段: '正式运营', 时间: '第5周起' }
-                    ],
-                    风险: ['平台规则变化', '内容同质化']
-                }
+            {
+                title: "🎯 核心业务场景",
+                content: `
+                    <p><strong>1. 财务方向：</strong></p>
+                    <ul>
+                        <li>数据分析：财务数据本地分析</li>
+                        <li>报表生成：财务报表自动生成</li>
+                        <li>技术对接：用友系统对接、起卖服务商数据抓取（待研究）</li>
+                    </ul>
+                    <br>
+                    <p><strong>2. 运营方向：</strong></p>
+                    <ul>
+                        <li>差评回复和收集：外卖平台差评、社交媒体评论、门店顾客反馈</li>
+                        <li>工作流程：AI建议人工审核、AI自动回复、AI收集整理</li>
+                        <li>客服机器人：常见问题答复、投诉处理、运营问题响应、内部员工指导</li>
+                    </ul>
+                    <br>
+                    <p><strong>3. 市场方向：</strong></p>
+                    <ul>
+                        <li>文案输出：品牌故事、视频文案、社媒文案、营销文案</li>
+                        <li>工作流程：人工提供主题→AI生成→人工编辑→发布</li>
+                    </ul>
+                `
             },
-            'p4': {
-                title: 'P4: 宝珠官网',
-                summary: '打造宝珠奶酪品牌的官方网站',
-                details: {
-                    目标: '展示品牌形象和产品信息',
-                    关键功能: ['产品展示', '品牌故事', '在线购买'],
-                    时间线: [
-                        { 阶段: '设计稿', 时间: '第1周' },
-                        { 阶段: '前端开发', 时间: '第2周' },
-                        { 阶段: '后端集成', 时间: '第3周' }
-                    ],
-                    风险: ['设计新颖性', '用户转化率']
-                }
+            {
+                title: "⏱️ 时间节点规划",
+                content: `
+                    <div class="timeline-grid">
+                        <div class="timeline-item">
+                            <div class="phase">硬件配置摸底</div>
+                            <div class="date">4月8日（1天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">标准化文档编写</div>
+                            <div class="date">4月9-10日（1-2天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">已落地伙伴优化</div>
+                            <div class="date">4月11-13日（2-3天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">未落地伙伴部署</div>
+                            <div class="date">4月14-18日（3-5天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">团队培训指导</div>
+                            <div class="date">4月19-21日（2-3天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">整体功能验证</div>
+                            <div class="date">4月22日（1天）</div>
+                        </div>
+                    </div>
+                `
             },
-            'p5': {
-                title: 'P5: 赠品选型的openclaw选项方式',
-                summary: '使用 OpenClaw 系统辅助赠品选型决策',
-                details: {
-                    目标: '优化赠品选型流程',
-                    关键功能: ['数据分析', '方案推荐', '成本评估'],
-                    时间线: [
-                        { 阶段: '数据收集', 时间: '第1周' },
-                        { 阶段: '系统配置', 时间: '第2周' },
-                        { 阶段: '试运行', 时间: '第3周' }
-                    ],
-                    风险: ['数据准确性', '决策依赖']
-                }
+            {
+                title: "✅ 验收标准",
+                content: `
+                    <p><strong>部署验收：</strong></p>
+                    <ul>
+                        <li>部署成功率：100%同事完成部署</li>
+                        <li>功能可用性：基础功能正常使用</li>
+                        <li>环境稳定性：连续运行无故障</li>
+                    </ul>
+                    <br>
+                    <p><strong>培训验收：</strong></p>
+                    <ul>
+                        <li>培训完成率：100%同事完成培训</li>
+                        <li>使用熟练度：能够独立使用OpenClaw</li>
+                        <li>工作流程掌握：能够应用工作流程到实际工作</li>
+                    </ul>
+                `
             },
-            'p6': {
-                title: 'P6: 小说广告植入',
-                summary: '在网文中自然植入宝珠产品广告',
-                details: {
-                    目标: '创新营销方式，触达年轻读者',
-                    关键功能: ['作者对接', '内容审核', '效果追踪'],
-                    时间线: [
-                        { 阶段: '作者找寻', 时间: '第1周' },
-                        { 阶段: '合同签署', 时间: '第2周' },
-                        { 阶段: '内容上线', 时间: '第3-4周' }
-                    ],
-                    风险: ['读者反感', '版权问题']
-                }
+            {
+                title: "⚠️ 风险评估",
+                content: `
+                    <div class="risk-list">
+                        <div class="risk-item high">
+                            <div class="risk-title">技术对接方案延迟</div>
+                            <div class="risk-solution">应对措施：提前研究、预留缓冲时间、人工替代方案</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-title">环境差异导致部署失败</div>
+                            <div class="risk-solution">应对措施：标准化文档 + 专职支持 + 远程支持</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-title">同事使用意愿不强</div>
+                            <div class="risk-solution">应对措施：强化培训 + 实际案例 + 一对一辅导</div>
+                        </div>
+                    </div>
+                `
             },
-            'p7': {
-                title: 'P7: 建立部分人的小秘书',
-                summary: '为特定人员提供 AI 助理秘书服务',
-                details: {
-                    目标: '提升特定人员的工作效率',
-                    关键功能: ['日程管理', '信息提醒', '任务代办'],
-                    时间线: [
-                        { 阶段: '需求调研', 时间: '第1周' },
-                        { 阶段: '系统搭建', 时间: '第2周' },
-                        { 阶段: '试运行', 时间: '第3周' }
-                    ],
-                    风险: ['隐私保护', '使用习惯']
-                }
-            },
-            'p8': {
-                title: 'P8: 酱板鸭的故事（创新视频营销）',
-                summary: '通过短视频讲述酱板鸭品牌故事',
-                details: {
-                    目标: '提升品牌知名度',
-                    关键功能: ['短视频制作', '社交媒体分发', '互动运营'],
-                    时间线: [
-                        { 阶段: '创意策划', 时间: '第1周' },
-                        { 阶段: '视频拍摄', 时间: '第2周' },
-                        { 阶段: '发布推广', 时间: '第3周起' }
-                    ],
-                    风险: ['创意同质化', '播放量']
-                }
-            },
-            'p9': {
-                title: 'P9: 创始人抖音号（老周）',
-                summary: '打造创始人IP抖音号',
-                details: {
-                    目标: '建立创始人个人IP，提升品牌信任度',
-                    关键功能: ['内容策划', '视频拍摄', '直播互动'],
-                    时间线: [
-                        { 阶段: '账号定位', 时间: '第1周' },
-                        { 阶段: '内容准备', 时间: '第2周' },
-                        { 阶段: '持续运营', 时间: '第3周起' }
-                    ],
-                    风险: ['内容持续性', '粉丝增长']
-                }
-            },
-            'p10': {
-                title: 'P10: 门店视频',
-                summary: '制作门店宣传视频',
-                details: {
-                    目标: '展示门店环境和服务',
-                    关键功能: ['视频拍摄', '后期制作', '线上分发'],
-                    时间线: [
-                        { 阶段: '脚本撰写', 时间: '第1周' },
-                        { 阶段: '现场拍摄', 时间: '第2周' },
-                        { 阶段: '上线推广', 时间: '第3周起' }
-                    ],
-                    风险: ['拍摄质量', '传播效果']
-                }
+            {
+                title: "📦 资源需求",
+                content: `
+                    <p><strong>人员配置：</strong></p>
+                    <ul>
+                        <li>技术支持：1-2人（部署支持、问题解决）- 全程参与</li>
+                        <li>培训讲师：1人（培训授课、答疑）- 3-5天</li>
+                        <li>项目协调：1人（进度跟踪、资源协调）- 全程参与</li>
+                    </ul>
+                    <br>
+                    <p><strong>文档资源：</strong></p>
+                    <ul>
+                        <li>OpenClaw部署手册（Mac/Windows环境部署步骤）</li>
+                        <li>OpenClaw使用指南（基础功能使用说明）</li>
+                        <li>业务工作流程手册（财务/运营/市场工作流程）</li>
+                    </ul>
+                `
             }
-        };
+        ]
+    },
+
+    p2: {
+        title: "P2: LLM本地模型部署（财务分析系统）",
+        subtitle: "财务分析智能化 | 最高优先级 | 1-2周周期",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>产品定位：</strong>本地轻量级大语言模型（LLM）财务分析系统，为财务团队提供智能化的财务数据分析、报表生成和自动化汇报功能。</p>
+                    <br>
+                    <p><strong>核心价值：</strong></p>
+                    <ul>
+                        <li><strong>成本可控：</strong>轻量级部署（9B/27B模型），降低硬件成本</li>
+                        <li><strong>数据安全：</strong>本地处理，财务数据不出域</li>
+                        <li><strong>自动化：</strong>通过OpenClaw机器人自动发布报表到群聊</li>
+                        <li><strong>易用性：</strong>新人权限沟通，降低使用门槛</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔧 硬件配置规划",
+                content: `
+                    <p><strong>方案一（优先）：</strong></p>
+                    <ul>
+                        <li>利用现有设计电脑或工厂文员电脑（显卡配置较好）</li>
+                        <li>无额外硬件成本</li>
+                        <li>适合7B/9B模型运行</li>
+                    </ul>
+                    <br>
+                    <p><strong>方案二（备选）：</strong></p>
+                    <ul>
+                        <li>两块12G雷七显卡组成24G阵列</li>
+                        <li>预算：2500+元</li>
+                        <li>适合14B/27B模型运行</li>
+                        <li>参考博思图网络博主方案</li>
+                    </ul>
+                    <br>
+                    <p><strong>已有测试数据：</strong></p>
+                    <ul>
+                        <li>硬件：3060T，8G显存</li>
+                        <li>模型：7B参数模型</li>
+                        <li>性能：40 token/秒输出速度</li>
+                        <li>评价：反应速度可以，财务分析生成速度待测试</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⚙️ 技术方案",
+                content: `
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="label">部署环境</div>
+                            <div class="value">办公室部署</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">期望系统</div>
+                            <div class="value">Ubuntu（Linux）</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">当前测试</div>
+                            <div class="value">Windows + Ollama</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">维护方式</div>
+                            <div class="value">内部专职维护</div>
+                        </div>
+                    </div>
+                    <br>
+                    <p><strong>技术框架选择：</strong></p>
+                    <ul>
+                        <li><strong>Ollama（推荐测试阶段）：</strong>轻量级、易安装、跨平台</li>
+                        <li><strong>vLLM（可选生产阶段）：</strong>高性能、优化推理、API服务</li>
+                    </ul>
+                    <br>
+                    <p><strong>模型选择建议：</strong></p>
+                    <ul>
+                        <li>基础需求（只做分析不做预测）：8G显存足够，7B模型</li>
+                        <li>标准需求（含预测功能）：12G显存推荐，14B模型</li>
+                        <li>高级需求（复杂分析+预测）：24G显存最佳，27B模型</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎯 核心功能需求",
+                content: `
+                    <p><strong>1. 基础数据分析：</strong></p>
+                    <ul>
+                        <li>收支汇总：每日/每周/每月收支汇总</li>
+                        <li>成本分析：门店成本、食材成本、人工成本分析</li>
+                        <li>门店收入对比：各门店销售收入对比分析</li>
+                        <li>利润分析：盈利能力和利润率分析</li>
+                    </ul>
+                    <br>
+                    <p><strong>2. 报表自动生成：</strong></p>
+                    <ul>
+                        <li>日报表：当日营业收入汇总报表</li>
+                        <li>周报表：本周财务概览和周度趋势</li>
+                        <li>月报表：月度财务分析和月度趋势</li>
+                        <li>对比分析报表：财务指标对比和同比环比分析</li>
+                    </ul>
+                    <br>
+                    <p><strong>3. 异常检测预警：</strong></p>
+                    <ul>
+                        <li>收入异常：收入异常波动检测（与历史对比）</li>
+                        <li>成本异常：成本异常增长检测</li>
+                        <li>门店异常：门店业绩异常检测</li>
+                        <li>数据错误检测：财务数据错误或不合理检测</li>
+                    </ul>
+                    <br>
+                    <p><strong>4. 趋势预测（可选）：</strong></p>
+                    <ul>
+                        <li>财务趋势预测（未来预测）</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔗 数据对接方案",
+                content: `
+                    <p><strong>数据来源：</strong></p>
+                    <ul>
+                        <li><strong>用友系统数据：</strong>主要财务数据源（对接方案待研究）</li>
+                        <li><strong>起卖服务商数据：</strong>希望自动化抓取（方案待研究）</li>
+                        <li><strong>其他业务数据：</strong>待确认具体系统</li>
+                        <li><strong>人工上传：</strong>不需要，希望自动化处理</li>
+                    </ul>
+                    <br>
+                    <p><strong>数据对接挑战：</strong></p>
+                    <ul>
+                        <li>用友系统对接：方案待研究，可能需要技术支持</li>
+                        <li>起卖数据对接：希望OpenClaw能实现自动下载分析，但需多轮测试</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔒 数据安全要求",
+                content: `
+                    <ul>
+                        <li><strong>本地处理不上云：</strong>本地服务器部署，数据不出域（最高优先级）</li>
+                        <li><strong>数据加密：</strong>敏感数据AES加密存储</li>
+                        <li><strong>权限分级控制：</strong>角色+数据范围权限管理</li>
+                        <li><strong>操作日志审计：</strong>完整操作日志记录</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔗 OpenClaw集成功能",
+                content: `
+                    <ul>
+                        <li><strong>机器人调用LLM：</strong>OpenClaw机器人调用LLM进行财务分析</li>
+                        <li><strong>群聊自动发布：</strong>财务分析结果自动发布到群聊</li>
+                        <li><strong>数据查询接口：</strong>通过OpenClaw查询财务数据和分析结果</li>
+                        <li><strong>权限管理系统：</strong>不同角色访问不同数据范围</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📦 服务形式",
+                content: `
+                    <ul>
+                        <li><strong>Web界面服务：</strong>财务人员可视化财务分析界面</li>
+                        <li><strong>API接口服务：</strong>OpenClaw系统标准化API调用</li>
+                        <li><strong>定时任务服务：</strong>自动化定时生成报表和预警</li>
+                        <li><strong>命令行工具：</strong>技术人员快速测试和调试工具</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⏱️ 时间节点规划",
+                content: `
+                    <div class="timeline-grid">
+                        <div class="timeline-item">
+                            <div class="phase">硬件配置确定</div>
+                            <div class="date">4月8日（1天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">Ubuntu环境搭建</div>
+                            <div class="date">4月9日（1天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">框架部署</div>
+                            <div class="date">4月10日（1天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">模型部署测试</div>
+                            <div class="date">4月11日（1天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">财务系统开发</div>
+                            <div class="date">4月12-16日（3-5天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">OpenClaw集成</div>
+                            <div class="date">4月17-19日（2-3天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">权限和发布功能</div>
+                            <div class="date">4月20-21日（1-2天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">整体测试验证</div>
+                            <div class="date">4月22日（1-2天）</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "⚠️ 项目挑战与应对",
+                content: `
+                    <p><strong>项目态度：</strong></p>
+                    <ul>
+                        <li>用户愿意和团队一起克服部署挑战</li>
+                        <li>每次难度和挑战都是团队共同克服的机会</li>
+                        <li>需要技术建议和指导方法</li>
+                    </ul>
+                    <br>
+                    <div class="risk-list">
+                        <div class="risk-item high">
+                            <div class="risk-title">数据对接方案延迟</div>
+                            <div class="risk-solution">应对措施：提前研究、预留缓冲时间、人工替代方案</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-title">LLM模型性能不稳定</div>
+                            <div class="risk-solution">应对措施：多模型备选、性能监控</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-title">Ubuntu部署难度</div>
+                            <div class="risk-solution">应对措施：提供详细部署文档和指导</div>
+                        </div>
+                    </div>
+                `
+            }
+        ]
+    },
+
+    p3: {
+        title: "P3: 小红书文案支持",
+        subtitle: "AI驱动的社交媒体内容创作 | 高优先级 | 1-2周周期",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>产品定位：</strong>建立小红书账号矩阵，开发小龙虾Agent，实现AI文案生成、智能配图、评论互动、数据分析功能，打造宝珠奶酪品牌在社交媒体的影响力。</p>
+                    <br>
+                    <p><strong>核心目标：</strong></p>
+                    <ul>
+                        <li>品牌知名度提升</li>
+                        <li>引流转化销售</li>
+                        <li>口碑互动建立</li>
+                        <li>营销效率提升</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎯 平台矩阵策略",
+                content: `
+                    <p><strong>平台覆盖：</strong>小红书、抖音等多平台矩阵</p>
+                    <br>
+                    <p><strong>Agent设计：</strong></p>
+                    <ul>
+                        <li>专门的小龙虾Agent，跑通工作流程</li>
+                        <li>Agent可转移skill、工作流程、配置到公司内部</li>
+                    </ul>
+                    <br>
+                    <p><strong>账号矩阵构成：</strong></p>
+                    <ul>
+                        <li>官方账号：宝珠奶酪官方小红书账号</li>
+                        <li>门店个人号：门店老板或店长个人账号</li>
+                        <li>管理层个人号：创始人或管理层个人账号</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔧 Agent核心功能",
+                content: `
+                    <p><strong>1. 文案生成功能：</strong></p>
+                    <ul>
+                        <li>自动生成小红书风格文案（去AI味）</li>
+                        <li>人性化设定</li>
+                    </ul>
+                    <br>
+                    <p><strong>2. 智能配图功能：</strong></p>
+                    <ul>
+                        <li>调用宝育skill自动生成配图</li>
+                        <li>支持多种风格</li>
+                    </ul>
+                    <br>
+                    <p><strong>3. 评论互动功能：</strong></p>
+                    <ul>
+                        <li>评论收集整理：自动收集所有评论和私信</li>
+                        <li>AI建议人工审核：AI生成回复建议，人工审核后发布</li>
+                        <li>常见问题自动回复：标准化问题自动回复</li>
+                        <li>评论情感分析：识别正面负面评论</li>
+                    </ul>
+                    <br>
+                    <p><strong>4. 数据分析功能：</strong></p>
+                    <ul>
+                        <li>基础互动数据：帖子浏览量、点赞、评论、分享数据统计</li>
+                        <li>粉丝分析：粉丝增长和用户画像分析</li>
+                        <li>内容效果对比：不同内容类型的效果对比分析</li>
+                        <li>优化建议生成：最佳发布时间和内容类型优化建议</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📝 文案类型",
+                content: `
+                    <ul>
+                        <li>产品介绍文案：酱板鸭产品介绍和特色展示</li>
+                        <li>门店体验文案：门店环境和体验分享</li>
+                        <li>品牌故事文案：酱板鸭制作工艺和品牌故事</li>
+                        <li>营销活动文案：促销活动和节日营销文案</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⚙️ 宝育Skill定制",
+                content: `
+                    <ul>
+                        <li>文案模板定制：小红书风格文案模板定制</li>
+                        <li>品牌元素植入：宝珠奶酪品牌元素植入</li>
+                        <li>人性化参数调整：去除AI味道，人性化设定</li>
+                        <li>账号风格差异化：不同账号的个性化风格定制</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔧 技术实现",
+                content: `
+                    <ul>
+                        <li>定制宝育Skill：基于现有宝育skill进行定制开发</li>
+                        <li>开发小红书Agent：开发专门的小红书Agent skill</li>
+                        <li>API集成发布：集成小红书发布API（技术对接，待研究）</li>
+                    </ul>
+                    <br>
+                    <p><strong>工作流程：</strong></p>
+                    <ul>
+                        <li>自动化程度：人机协作流程</li>
+                        <li>流程步骤：人工提供素材→Agent加工→人工编辑→发布</li>
+                        <li>发布频率：中频发布（每周3-5篇）</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⏱️ 时间节点规划",
+                content: `
+                    <div class="timeline-grid">
+                        <div class="timeline-item">
+                            <div class="phase">宝育Skill定制开发</div>
+                            <div class="date">第1-5天（3-5天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">小龙虾Agent开发</div>
+                            <div class="date">第3-10天（5-7天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">工作流程设计</div>
+                            <div class="date">第8-12天（3-5天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">整体测试验证</div>
+                            <div class="date">第12-14天（1-2天）</div>
+                        </div>
+                    </div>
+                `
+            }
+        ]
+    },
+
+    p4: {
+        title: "P4: 宝珠官网",
+        subtitle: "品牌数字化门户 | 高优先级 | 2-3周周期",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>品牌纠正：</strong>宝珠奶酪（饮品甜品店），不是酱板鸭</p>
+                    <br>
+                    <p><strong>双域名规划：</strong></p>
+                    <ul>
+                        <li><strong>bojoo.online：</strong>内部使用，展示9个落地项目进展</li>
+                        <li><strong>baozhu.cn：</strong>对外官网，展示品牌形象</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🌐 对外官网（baozhu.cn）",
+                content: `
+                    <p><strong>设计风格：</strong>清新自然风，突出健康定位</p>
+                    <br>
+                    <p><strong>核心目标：</strong></p>
+                    <ul>
+                        <li>品牌形象展示</li>
+                        <li>产品展示推广</li>
+                        <li>门店导流引流</li>
+                    </ul>
+                    <br>
+                    <p><strong>用户群体：</strong></p>
+                    <ul>
+                        <li>潜在消费者</li>
+                        <li>现有客户</li>
+                        <li>加盟商/合作伙伴</li>
+                        <li>媒体/行业人士</li>
+                    </ul>
+                    <br>
+                    <p><strong>功能模块：</strong></p>
+                    <ul>
+                        <li>品牌故事模块：宝珠奶酪品牌故事和创始历程</li>
+                        <li>产品展示模块：饮品甜品产品系列展示</li>
+                        <li>门店信息模块：门店位置查询和门店信息</li>
+                        <li>加盟合作信息：加盟合作信息和联系方式</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📊 内部网站（bojoo.online）",
+                content: `
+                    <p><strong>子域名规划：</strong></p>
+                    <ul>
+                        <li>OpenClaw落地子站：OpenClaw落地情况展示</li>
+                        <li>项目子站：9个落地项目每个都有独立子站</li>
+                    </ul>
+                    <br>
+                    <p><strong>功能需求：</strong></p>
+                    <ul>
+                        <li>项目进展追踪：9个项目的落地进展追踪</li>
+                        <li>甘特图展示：项目甘特图和时间节点展示</li>
+                        <li>卡点问题汇总：项目卡点和问题汇总</li>
+                        <li>团队协作展示：团队协作和任务分配展示</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔧 技术实现",
+                content: `
+                    <p><strong>部署平台：</strong>继续使用Vercel部署</p>
+                    <br>
+                    <p><strong>内容管理：</strong></p>
+                    <ul>
+                        <li>产品内容管理：产品信息和图片的管理更新</li>
+                        <li>门店信息管理：门店信息和联系方式更新</li>
+                        <li>内容动态更新：品牌故事和新闻动态更新</li>
+                        <li>多语言支持：多语言版本支持</li>
+                    </ul>
+                    <br>
+                    <p><strong>内容更新方式：</strong></p>
+                    <ul>
+                        <li>OpenClaw更新：通过OpenClaw系统更新内容</li>
+                        <li>业务系统同步：定期从业务系统同步数据</li>
+                        <li>工作流程管理：建立内容更新工作流程</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔍 SEO优化",
+                content: `
+                    <ul>
+                        <li>搜索引擎排名优化：提升搜索引擎排名和曝光</li>
+                        <li>关键词优化：针对宝珠奶酪相关关键词优化</li>
+                        <li>移动端优化：优化移动端访问体验</li>
+                        <li>性能优化：网站性能和加载速度优化</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⏱️ 时间节点规划",
+                content: `
+                    <div class="timeline-grid">
+                        <div class="timeline-item">
+                            <div class="phase">对外官网设计规划</div>
+                            <div class="date">第1-3天（2-3天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">内部网站规划</div>
+                            <div class="date">第2-3天（1-2天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">子域名架构设计</div>
+                            <div class="date">第3-4天（1-2天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">对外官网前端开发</div>
+                            <div class="date">第5-12天（5-7天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">内部看板系统开发</div>
+                            <div class="date">第8-12天（3-5天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">部署和SEO优化</div>
+                            <div class="date">第13-17天（3-5天）</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="phase">整体测试验证</div>
+                            <div class="date">第18-21天（1-2天）</div>
+                        </div>
+                    </div>
+                `
+            }
+        ]
+    },
+
+    p5: {
+        title: "P5: 赠品选型的openclaw选项方式",
+        subtitle: "智能赠品推荐系统 | 中优先级 | 1-2周周期",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>业务场景：</strong>促销活动赠品选择</p>
+                    <br>
+                    <p><strong>使用对象：</strong>市场部策划人员</p>
+                    <br>
+                    <p><strong>工作流程：</strong>OpenClaw推荐方案，人工选择决策</p>
+                `
+            },
+            {
+                title: "🎯 核心功能",
+                content: `
+                    <p><strong>1. 对话式选品：</strong>通过对话方式选择赠品</p>
+                    <br>
+                    <p><strong>2. 智能推荐：</strong>智能推荐合适的赠品方案</p>
+                    <br>
+                    <p><strong>3. 报告生成：</strong>自动生成赠品选型报告</p>
+                `
+            },
+            {
+                title: "📊 选型因素",
+                content: `
+                    <ul>
+                        <li>活动类型匹配：根据活动类型匹配赠品</li>
+                        <li>季节时令推荐：根据季节时令推荐赠品</li>
+                        <li>客户偏好推荐：根据客户群体偏好推荐</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔍 智能推荐维度",
+                content: `
+                    <ul>
+                        <li>历史效果推荐：基于历史活动效果推荐</li>
+                        <li>成本效益分析：基于赠品成本效益分析推荐</li>
+                        <li>客户画像推荐：基于客户群体画像推荐</li>
+                        <li>竞品分析推荐：基于竞品活动赠品分析推荐</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📈 输出形式",
+                content: `
+                    <ul>
+                        <li>对话推荐：对话形式推荐赠品方案</li>
+                        <li>选型报告：生成赠品选型报告文档</li>
+                        <li>图表展示：可视化图表展示对比</li>
+                        <li>系统链接：链接到采购或库存系统</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📦 数据基础",
+                content: `
+                    <ul>
+                        <li>已有赠品库：已有赠品库和供应商信息</li>
+                        <li>需要新建数据库：需要新建赠品数据库</li>
+                        <li>有历史数据：有历史赠品使用数据</li>
+                        <li>需建立规则库：需要建立选型规则库</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⚙️ 技术实现",
+                content: `
+                    <ul>
+                        <li>开发赠品Skill：开发专门的赠品选型Skill</li>
+                        <li>业务系统集成：集成现有业务系统数据</li>
+                        <li>推荐算法模型：建立推荐算法模型</li>
+                        <li>数据可视化界面：开发数据可视化界面</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⏱️ 时间规划",
+                content: `
+                    <p><strong>开发优先级：</strong>基础功能优先</p>
+                    <p><strong>开发时间：</strong>快速上线（1-2周）</p>
+                `
+            }
+        ]
+    },
+
+    p6: {
+        title: "P6: 找小说大神，在网文中进行广告植入",
+        subtitle: "创新营销渠道探索 | 中优先级 | MVP测试1-2周",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>项目特点：</strong></p>
+                    <ul>
+                        <li>不确定性高：没有预判性，效果难以用ROI计算</li>
+                        <li>需要MVP测试：小规模测试验证可行性</li>
+                        <li>策略：想得细一点，落地细节少一点</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎯 核心目标",
+                content: `
+                    <ul>
+                        <li>品牌知名度提升</li>
+                        <li>引流转化销售</li>
+                        <li>触达新用户群体</li>
+                        <li>创新营销尝试</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📝 合作方式",
+                content: `
+                    <ul>
+                        <li>平台中介合作：通过小说平台中介合作</li>
+                        <li>赞助创作：赞助小说创作或连载</li>
+                        <li>定制主题小说：定制品牌主题小说</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎬 广告植入形式",
+                content: `
+                    <ul>
+                        <li>情节自然植入：故事情节中自然提及品牌或产品</li>
+                        <li>角色消费植入：角色在故事中消费宝珠奶酪产品</li>
+                        <li>场景背景植入：故事背景设置在宝珠奶酪门店</li>
+                        <li>作者推荐形式：作者推荐或特别鸣谢形式</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📚 目标平台与小说类型",
+                content: `
+                    <p><strong>目标平台：</strong></p>
+                    <ul>
+                        <li>知名小说平台：起点中文网等知名小说平台</li>
+                        <li>女性向平台：晋江文学城等女性向平台</li>
+                        <li>免费阅读平台：番茄小说等免费阅读平台</li>
+                        <li>综合阅读平台：微信读书等综合阅读平台</li>
+                    </ul>
+                    <br>
+                    <p><strong>小说类型倾向：</strong></p>
+                    <ul>
+                        <li>都市职场类小说</li>
+                        <li>青春校园类小说</li>
+                        <li>女性向情感类小说</li>
+                        <li>美食生活类小说</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔍 MVP测试方案",
+                content: `
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="label">测试方式</div>
+                            <div class="value">多种植入形式测试</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">预算范围</div>
+                            <div class="value">小预算（<1万）</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">时间规划</div>
+                            <div class="value">本月启动</div>
+                        </div>
+                    </div>
+                    <br>
+                    <p><strong>触达途径：</strong></p>
+                    <ul>
+                        <li>平台官方渠道：通过小说平台官方合作渠道</li>
+                        <li>直接联系作家：直接联系作家本人或经纪人</li>
+                        <li>社交媒体渠道：通过社交媒体寻找合作机会</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📊 效果评估指标",
+                content: `
+                    <ul>
+                        <li>品牌认知提升：小说读者对宝珠奶酪的认知提升</li>
+                        <li>引流转化效果：通过小说引流到门店或线上</li>
+                        <li>社交传播效果：社交媒体讨论和传播效果</li>
+                        <li>ROI评估：投入产出比评估</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⚠️ 主要风险",
+                content: `
+                    <div class="risk-list">
+                        <div class="risk-item high">
+                            <div class="risk-title">效果不可控风险</div>
+                            <div class="risk-solution">应对措施：小预算MVP测试、灵活调整</div>
+                        </div>
+                        <div class="risk-item high">
+                            <div class="risk-title">预算投入风险</div>
+                            <div class="risk-solution">应对措施：<1万小预算测试</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-title">品牌形象风险</div>
+                            <div class="risk-solution">应对措施：选择合适的内容创作者</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-title">合作方式风险</div>
+                            <div class="risk-solution">应对措施：多触达途径备选</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "📈 后续规划",
+                content: `
+                    <p><strong>发展策略：</strong>持续优化（无论效果如何都会继续优化）</p>
+                `
+            }
+        ]
+    },
+
+    p7: {
+        title: "P7: 建立部分人的小秘书",
+        subtitle: "企业微信AI助手 | 高优先级 | 1-2周周期",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>服务对象：</strong></p>
+                    <ul>
+                        <li>公司高管：为公司高管提供决策支持和日常助理服务</li>
+                        <li>门店店长：为门店店长提供运营支持和信息查询</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎯 核心功能",
+                content: `
+                    <p><strong>1. 日程管理提醒：</strong>日常事务提醒和日程安排</p>
+                    <br>
+                    <p><strong>2. 信息查询问答：</strong>公司内部信息查询和问答</p>
+                    <br>
+                    <p><strong>3. 业务数据分析：</strong>业务数据查询和分析支持</p>
+                    <br>
+                    <p><strong>4. 工作流程协调：</strong>工作流程协调和任务跟踪</p>
+                `
+            },
+            {
+                title: "💬 使用方式",
+                content: `
+                    <p><strong>主要平台：</strong>企业微信集成（公司使用企业微信）</p>
+                    <br>
+                    <p><strong>备选平台：</strong>飞书集成（飞书目前落地效果较好）</p>
+                    <br>
+                    <p><strong>核心服务：</strong>OpenClaw对话</p>
+                `
+            },
+            {
+                title: "🎬 使用场景",
+                content: `
+                    <ul>
+                        <li>找人替代场景：找不到人时与小秘书沟通</li>
+                        <li>日常查询场景：快速查询业务数据</li>
+                        <li>决策支持场景：提供数据和建议</li>
+                        <li>工作协调场景：协调跨部门任务</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📊 数据范围",
+                content: `
+                    <ul>
+                        <li>业务系统数据：访问公司内部业务系统数据</li>
+                        <li>财务销售数据：访问财务和销售数据</li>
+                        <li>门店运营数据：访问门店运营数据</li>
+                        <li>库存供应链数据：访问产品库存和供应链数据</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⚙️ 技术实现",
+                content: `
+                    <ul>
+                        <li>企微机器人接口：开发企业微信机器人接口</li>
+                        <li>OpenClaw Agent：OpenClaw Agent开发</li>
+                        <li>对话Skill：小秘书对话Skill开发</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🔒 数据安全",
+                content: `
+                    <p><strong>数据加密：</strong>敏感数据加密处理</p>
+                    <p><strong>个性化需求：</strong>功能定制化（根据个人工作习惯定制功能）</p>
+                `
+            },
+            {
+                title: "⏱️ 时间规划",
+                content: `
+                    <p><strong>开发优先级：</strong>高管优先（先开发高管小秘书，验证效果后推广）</p>
+                    <p><strong>开发时间：</strong>快速上线（1-2周）</p>
+                `
+            },
+            {
+                title: "📈 预期效果",
+                content: `
+                    <ul>
+                        <li>提升决策效率：提升高管决策效率</li>
+                        <li>提升运营效率：提升店长运营效率</li>
+                        <li>降低沟通成本：降低找人沟通成本</li>
+                        <li>提升数据效率：提升数据获取效率</li>
+                    </ul>
+                `
+            }
+        ]
+    },
+
+    p8: {
+        title: "P8: 酱板鸭的故事（创新视频营销）",
+        subtitle: "AI驱动的内容创作与矩阵裂变 | 中优先级 | 持续迭代",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>灵感来源：</strong>抖音"酱板鸭和雪山狐狸"现象级视频案例</p>
+                    <br>
+                    <p><strong>项目定位：</strong></p>
+                    <ul>
+                        <li>类似"珠光计划"的项目代号</li>
+                        <li>核心是创造有传播性的内容</li>
+                        <li>真人化视频，品牌广告无形植入</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎯 核心目标",
+                content: `
+                    <p><strong>创新营销：</strong>以玩梗、玩传播的角度创造有传播性的视频内容</p>
+                    <br>
+                    <p><strong>品牌植入：</strong>品牌广告无形中植入，场景自然融入</p>
+                    <br>
+                    <p><strong>矩阵裂变：</strong>从共创→内部裂变（20个账号起号）→外部裂变</p>
+                `
+            },
+            {
+                title: "💡 创新角度",
+                content: `
+                    <ul>
+                        <li>梗文化创作：设计有趣、好玩的梗或网络流行元素</li>
+                        <li>病毒式传播设计：设计病毒式传播机制和话题</li>
+                        <li>人物IP打造：通过人物设定建立情感连接</li>
+                        <li>剧情内容创作：通过故事剧情建立品牌认知</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎬 内容形式与植入方式",
+                content: `
+                    <p><strong>内容形式：</strong></p>
+                    <ul>
+                        <li>系列短视频：短视频系列，类似连续剧形式</li>
+                        <li>创意广告片：创意广告片或品牌片</li>
+                        <li>真人实拍：真人实拍内容（AI实现）</li>
+                        <li>动画IP形象：动画或IP形象内容</li>
+                    </ul>
+                    <br>
+                    <p><strong>品牌植入方式：</strong></p>
+                    <ul>
+                        <li>场景自然融入：自然融入故事场景，不明显广告</li>
+                        <li>人物使用植入：通过人物使用产品植入</li>
+                        <li>台词植入：通过台词或对白植入</li>
+                        <li>IP形象客串：通过品牌IP形象客串植入</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🤖 AI创作核心",
+                content: `
+                    <p><strong>AI工具选择：</strong>国内AI工具 + OpenClaw集成</p>
+                    <br>
+                    <p><strong>AI创作功能：</strong></p>
+                    <ul>
+                        <li>AI数字人创作：AI数字人或虚拟形象创作</li>
+                        <li>AI剧本生成：AI生成剧本和创意</li>
+                        <li>AI视频生成：AI生成视频内容</li>
+                        <li>AI配音音效：AI配音和音效</li>
+                    </ul>
+                    <br>
+                    <p><strong>核心创新：</strong>避免真人拍摄困难，使用AI创作（如C档2.0）</p>
+                `
+            },
+            {
+                title: "🔄 矩阵裂变策略",
+                content: `
+                    <p><strong>裂变路径：</strong>共创MVP → 内部裂变（20个账号）→ 外部裂变</p>
+                    <br>
+                    <p><strong>裂变机制：</strong></p>
+                    <ul>
+                        <li>模板工具标准化：创作模板和工具标准化</li>
+                        <li>风格定位差异化：内容风格和账号定位差异化</li>
+                        <li>培训赋能团队：培训店长和员工使用工具</li>
+                        <li>质量监控机制：建立内容质量监控机制</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📝 剧本创意与角色设计",
+                content: `
+                    <p><strong>剧本创意来源：</strong></p>
+                    <ul>
+                        <li>产品创意故事：宝珠奶酪产品故事和创意</li>
+                        <li>门店日常故事：门店日常和顾客故事</li>
+                        <li>梗文化内容：玩梗和网络流行元素</li>
+                        <li>品牌文化故事：品牌文化和价值观故事</li>
+                    </ul>
+                    <br>
+                    <p><strong>角色设计方式：</strong></p>
+                    <ul>
+                        <li>固定IP角色：设计固定IP角色或形象</li>
+                        <li>多样角色形象：每期不同角色形象</li>
+                        <li>品牌形象角色：虚拟店员或品牌形象</li>
+                        <li>真人AI化角色：真人形象AI化</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⏱️ MVP验证目标",
+                content: `
+                    <p><strong>时间规划：</strong>本月启动MVP</p>
+                    <p><strong>预算范围：</strong>小预算试验</p>
+                    <br>
+                    <p><strong>验证目标：</strong></p>
+                    <ul>
+                        <li>验证工作流可行性：验证AI创作工作流可行性</li>
+                        <li>测试内容效果：测试少量账号的内容效果</li>
+                        <li>积累创作经验：积累创作经验和模板</li>
+                        <li>评估投入产出：评估投入产出比</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📊 成功评估标准",
+                content: `
+                    <ul>
+                        <li>播放量突破10万+：单条视频播放量突破10万+</li>
+                        <li>账号矩阵成功：多个账号同时起号成功</li>
+                        <li>品牌搜索提升：品牌搜索量明显提升</li>
+                        <li>门店引流效果：门店引流效果明显</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📈 后续规划",
+                content: `
+                    <p><strong>发展策略：</strong>快速扩大规模（MVP成功后快速扩大规模）</p>
+                `
+            }
+        ]
+    },
+
+    p9: {
+        title: "P9: 创始人抖音号（老周）",
+        subtitle: "个人品牌与企业形象塑造 | 高优先级 | 持续迭代",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>账号策略：</strong>全员矩阵（老周+门店店长+员工多个账号）</p>
+                    <br>
+                    <p><strong>核心目标：</strong></p>
+                    <ul>
+                        <li>个人影响力提升：提升创始人个人影响力</li>
+                        <li>品牌知名度提升：提升品牌知名度和信任度</li>
+                        <li>引流转化：引流到门店或线上</li>
+                        <li>用户沟通渠道：建立与用户直接沟通渠道</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎯 内容定位",
+                content: `
+                    <ul>
+                        <li>个人品牌结合：创始人个人形象和品牌形象结合</li>
+                        <li>企业文化展示：展示企业文化和团队建设</li>
+                        <li>产品门店运营：展示产品和门店运营</li>
+                        <li>行业创业分享：分享行业洞察和创业经验</li>
+                    </ul>
+                `
+            },
+            {
+                title: "🎬 内容类型",
+                content: `
+                    <ul>
+                        <li>到店检查指导：到店检查和工作指导</li>
+                        <li>生产制作过程：产品制作和生产过程</li>
+                        <li>团队管理互动：团队管理和员工互动</li>
+                        <li>日常创业故事：日常工作和创业故事</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📹 拍摄创作方式",
+                content: `
+                    <p><strong>真人实拍：</strong>真人实拍，展现真实场景</p>
+                    <br>
+                    <p><strong>混合创作：</strong>混合真人+AI内容</p>
+                `
+            },
+            {
+                title: "📊 更新频率与矩阵策略",
+                content: `
+                    <p><strong>更新频率：</strong>中频更新（每周3-5条）</p>
+                    <br>
+                    <p><strong>矩阵策略：</strong>全员矩阵（老周+门店店长+员工多个账号）</p>
+                    <br>
+                    <p><strong>与门店视频协同：</strong>矩阵账号协同</p>
+                `
+            },
+            {
+                title: "⚙️ OpenClaw集成",
+                content: `
+                    <ul>
+                        <li>AI内容策划：AI辅助内容策划和选题</li>
+                        <li>AI文案生成：AI生成文案和脚本</li>
+                        <li>AI视频剪辑：AI辅助视频剪辑</li>
+                        <li>AI数据分析：AI数据分析和优化建议</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📦 资源配置",
+                content: `
+                    <ul>
+                        <li>专职拍摄人员</li>
+                        <li>策划编导人员</li>
+                        <li>剪辑后期人员</li>
+                    </ul>
+                `
+            },
+            {
+                title: "⏱️ 时间规划",
+                content: `
+                    <p><strong>时间规划：</strong>本月启动</p>
+                    <p><strong>预算范围：</strong>小预算试验</p>
+                `
+            },
+            {
+                title: "⚠️ 执行挑战与解决方案",
+                content: `
+                    <p><strong>主要挑战：</strong></p>
+                    <ul>
+                        <li>时间精力限制：创始人时间精力有限，难以频繁拍摄</li>
+                        <li>内容持续保障：内容创意和持续性保障困难</li>
+                        <li>专业人才不足：专业人才和团队配置不足</li>
+                        <li>质量形象把控：内容质量和品牌形象把控</li>
+                    </ul>
+                    <br>
+                    <p><strong>解决方案：</strong></p>
+                    <ul>
+                        <li>标准化流程：建立标准化内容生产流程</li>
+                        <li>团队能力培养：培养内部团队创作能力</li>
+                        <li>AI工具赋能：利用AI工具提升效率</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📊 成功标准",
+                content: `
+                    <ul>
+                        <li>粉丝量达标：账号粉丝量突破目标值</li>
+                        <li>爆款视频产出：多条视频播放量10万+</li>
+                        <li>品牌搜索提升：品牌搜索量明显提升</li>
+                        <li>引流效果显著：门店引流效果显著</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📈 后续规划",
+                content: `
+                    <p><strong>发展策略：</strong>持续迭代优化</p>
+                `
+            }
+        ]
+    },
+
+    p10: {
+        title: "P10: 门店视频",
+        subtitle: "门店视角的内容矩阵 | 中优先级 | 持续迭代",
+        sections: [
+            {
+                title: "📍 项目背景与定位",
+                content: `
+                    <p><strong>项目定位：</strong>矩阵账号协同（门店视频是矩阵账号的一部分，与创始人抖音号协同）</p>
+                `
+            },
+            {
+                title: "🎯 核心目标",
+                content: `
+                    <p><strong>协同策略：</strong>与创始人抖音号协同运营</p>
+                    <br>
+                    <p><strong>内容差异化：</strong>门店视角展示</p>
+                    <br>
+                    <p><strong>运营模式：</strong>店长运营+总部团队支持</p>
+                `
+            },
+            {
+                title: "📊 成功标准",
+                content: `
+                    <ul>
+                        <li>门店账号开通率：100%</li>
+                        <li>单店平均粉丝：>500</li>
+                    </ul>
+                `
+            },
+            {
+                title: "📈 后续规划",
+                content: `
+                    <p><strong>发展策略：</strong>持续迭代优化</p>
+                `
+            }
+        ]
+    }
+};
 
         // 打开 PRD 弹窗
         function openPRD(id) {
             const prd = prdData[id];
             if (!prd) return;
 
-            let html = `<div class="modal-header">
-                <h2>${prd.title}</h2>
-                <p class="meta">${prd.summary}</p>
-            </div>`;
-
-            // 详细信息
-            html += `<div class="prd-section">
-                <h3>📋 项目详情</h3>
-                <div class="info-grid">`;
+            // 检查数据结构类型
+            let html = '';
             
-            if (prd.details) {
-                html += `<div class="info-item">
-                    <div class="label">项目目标</div>
-                    <div class="value">${prd.details.目标}</div>
+            if (prd.subtitle) {
+                // 复杂数据结构 (sections)
+                html = `<div class="modal-header">
+                    <h2>${prd.title}</h2>
+                    <p class="meta">${prd.subtitle}</p>
+                </div>                
+                <div class="prd-section">`;
+                
+                prd.sections.forEach(section => {
+                    html += `<h3>${section.title}</h3>
+                        <div class='prd-content'>${section.content}</div>`;
+                });
+                
+                html += `</div>`;
+            } else if (prd.details) {
+                // 简化数据结构 (details)
+                html = `<div class="modal-header">
+                    <h2>${prd.title}</h2>
+                    <p class="meta">${prd.summary}</p>
                 </div>`;
-                
-                html += `<div class="info-item">
-                    <div class="label">关键功能</div>
-                    <div class="value">${(Array.isArray(prd.details.关键功能) ? prd.details.关键功能.join('<br>') : prd.details.关键功能)}</div>
-                </div>`;
-                
-                // 时间线
-                if (prd.details.时间线) {
-                    html += `<div class="info-item">
-                        <div class="label">时间线</div>
-                        <div class="value">
-                            <div class="timeline-grid">`;
-                    prd.details.时间线.forEach(t => {
-                        html += `<div class="timeline-item">
-                            <div class="phase">${t.阶段}</div>
-                            <div class="date">${t.时间}</div>
-                        </div>`;
-                    });
-                    html += `</div>
-                        </div>
-                    </div>`;
-                }
-                
-                // 风险
-                if (prd.details.风险) {
-                    html += `<div class="info-item">
-                        <div class="label">主要风险</div>
-                        <div class="value">
-                            <div class="risk-list">`;
-                    (Array.isArray(prd.details.风险) ? prd.details.风险 : [prd.details.风险]).forEach(r => {
-                        html += `<div class="risk-item">
-                            <div class="risk-title">⚠️ ${r}</div>
-                            <div class="risk-solution">需制定应对措施</div>
-                        </div>`;
-                    });
-                    html += `</div>
-                        </div>
-                    </div>`;
-                }
-            }
 
-            html += `</div>
-            </div>`;
+                // 详细信息
+                html += `<div class="prd-section">
+                    <h3>📋 项目详情</h3>
+                    <div class="info-grid">`;
+            
+                if (prd.details) {
+                    html += `<div class="info-item">
+                        <div class="label">项目目标</div>
+                        <div class="value">${prd.details.目标}</div>
+                    </div>`;
+                    
+                    html += `<div class="info-item">
+                        <div class="label">关键功能</div>
+                        <div class="value">${(Array.isArray(prd.details.关键功能) ? prd.details.关键功能.join('<br>') : prd.details.关键功能)}</div>
+                    </div>`;
+                    
+                    // 时间线
+                    if (prd.details.时间线) {
+                        html += `<div class="info-item">
+                            <div class="label">时间线</div>
+                            <div class="value">
+                                <div class="timeline-grid">`;
+                        prd.details.时间线.forEach(t => {
+                            html += `<div class="timeline-item">
+                                <div class="phase">${t.阶段}</div>
+                                <div class="date">${t.时间}</div>
+                            </div>`;
+                        });
+                        html += `</div>
+                            </div>
+                        </div>`;
+                    }
+                    
+                    // 风险
+                    if (prd.details.风险) {
+                        html += `<div class="info-item">
+                            <div class="label">主要风险</div>
+                            <div class="value">
+                                <div class="risk-list">`;
+                        (Array.isArray(prd.details.风险) ? prd.details.风险 : [prd.details.风险]).forEach(r => {
+                            html += `<div class="risk-item">
+                                <div class="risk-title">⚠️ ${r}</div>
+                                <div class="risk-solution">需制定应对措施</div>
+                            </div>`;
+                        });
+                        html += `</div>
+                            </div>
+                        </div>`;
+                    }
+                }
+
+                html += `</div>
+                </div>`;
+            } else {
+                // 不知道的结构
+                html = `<div class="modal-header">
+                    <h2>${prd.title}</h2>
+                </div>
+                <div class="prd-section">
+                    <p>暂无详细信息</p>
+                </div>`;
+            }
 
             document.getElementById('prdContent').innerHTML = html;
             document.getElementById('prdModal').classList.add('active');
