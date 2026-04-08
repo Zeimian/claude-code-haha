@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝珠奶酪数字化升级项目看板 - 单页版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* 圈子头部 */
+        .community-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .community-info h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .community-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .join-btn {
+            background: white;
+            color: #f5576c;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        /* 统计卡片 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        /* 甘特图 */
+        .gantt-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            background: #34495e;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .gantt-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .gantt-header {
+            display: grid;
+            grid-template-columns: 200px repeat(13, 1fr);
+            gap: 2px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .gantt-header-cell {
+            padding: 10px;
+            text-align: center;
+            background: #dee2e6;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .gantt-row {
+            display: grid;
+            grid-template-columns: 200px repeat(13, 1fr);
+            gap: 2px;
+            margin-bottom: 5px;
+            align-items: center;
+        }
+
+        .gantt-project-name {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #3498db;
+        }
+
+        .gantt-project-name:hover {
+            background: #e3f2fd;
+            text-decoration: underline;
+        }
+
+        .gantt-cell {
+            height: 40px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .gantt-bar {
+            height: 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .bar-落地 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .bar-运行 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .bar-复盘 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        /* 项目列表 */
+        .projects-section {
+            margin-bottom: 40px;
+        }
+
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .project-row {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 80px 1fr 150px 120px 100px 120px;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .project-row:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        .project-id {
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .project-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .project-team {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .project-cycle {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .project-budget {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .view-detail-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .view-detail-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* 弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: auto;
+        }
+
+        .modal-header {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .modal-header .meta {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: #95a5a6;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: #2c3e50;
+        }
+
+        .prd-section {
+            margin-bottom: 30px;
+        }
+
+        .prd-section h3 {
+            background: #f8f9fa;
+            color: #2c3e50;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-left: 4px solid #3498db;
+        }
+
+        .prd-content {
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .prd-content ul {
+            margin-left: 20px;
+        }
+
+        .prd-content li {
+            margin-bottom: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .info-item .label {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            color: #2c3e50;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .timeline-item {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .timeline-item .phase {
+            color: #1976d2;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .timeline-item .date {
+            color: #666;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .risk-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .risk-item {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .risk-item.high {
+            background: #f8d7da;
+            border-color: #e74c3c;
+        }
+
+        .risk-item .risk-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .risk-item .risk-solution {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 圈子表单 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f5576c;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .project-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .community-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .community-stats {
+                justify-content: center;
+            }
+
+            .join-btn {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 圈子头部 -->
+        <div class="community-header">
+            <div class="community-info">
+                <h2>🌟 宝珠数字化升级项目圈子</h2>
+                <p>加入圈子，参与项目讨论，获取最新进展</p>
+                <div class="community-stats">
+                    <div class="stat">
+                        <div class="stat-number">156</div>
+                        <div class="stat-label">圈子成员</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">42</div>
+                        <div class="stat-label">讨论话题</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">进行中项目</div>
+                    </div>
+                </div>
+            </div>
+            <button class="join-btn" onclick="openJoinModal()">加入圈子</button>
+        </div>
+
+        <h1>📊 宝珠奶酪数字化升级项目总看板</h1>
+
+        <!-- 项目统计 -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>项目总数</h3>
+                <div class="number">10</div>
+            </div>
+            <div class="stat-card">
+                <h3>待启动</h3>
+                <div class="number">10</div>
+            </div>
+            <div class="stat-card">
+                <h3>预计总周期</h3>
+                <div class="number">3个月</div>
+            </div>
+            <div class="stat-card">
+                <h3>启动日期</h3>
+                <div class="number">2026-04-08</div>
+            </div>
+        </div>
+
+        <!-- 甘特图 -->
+        <div class="gantt-section">
+            <div class="section-title">📅 项目甘特图（2026年4月8日 - 7月8日）</div>
+            <div class="gantt-container">
+                <div class="gantt-header">
+                    <div class="gantt-header-cell">项目名称</div>
+                    <div class="gantt-header-cell">4月下</div>
+                    <div class="gantt-header-cell">5月上</div>
+                    <div class="gantt-header-cell">5月中</div>
+                    <div class="gantt-header-cell">5月下</div>
+                    <div class="gantt-header-cell">6月上</div>
+                    <div class="gantt-header-cell">6月中</div>
+                    <div class="gantt-header-cell">6月下</div>
+                    <div class="gantt-header-cell">7月上</div>
+                    <div class="gantt-header-cell">运行期</div>
+                    <div class="gantt-header-cell">复盘1</div>
+                    <div class="gantt-header-cell">复盘2</div>
+                    <div class="gantt-header-cell">复盘3</div>
+                </div>
+
+                <!-- P1: OpenClaw办公室落地 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p1')">P1: OpenClaw办公室落地</div>
+                    <div class="gantt-cell" style="grid-column: span 3; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">落地(2周)</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 4; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">运行期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P2: LLM本地模型部署 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p2')">P2: LLM本地模型部署</div>
+                    <div class="gantt-cell" style="grid-column: span 4; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">落地(3周)</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 4; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">运行期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P3: 小红书文案支持 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p3')">P3: 小红书文案支持</div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 3; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">落地(2周)</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 4; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">运行期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P4: 宝珠官网 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p4')">P4: 宝珠官网</div>
+                    <div class="gantt-cell" style="grid-column: span 5; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">落地(3周)</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 3; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">运行期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P5: 赠品选型 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p5')">P5: 赠品选型</div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 2; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">落地(2周)</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 4; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">运行期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P6: 小说广告植入 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p6')">P6: 小说广告植入</div>
+                    <div class="gantt-cell" style="grid-column: span 2; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">MVP测试</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 5; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">运行优化期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P7: 小秘书系统 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p7')">P7: 小秘书系统</div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 3; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">落地(2周)</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 4; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">运行期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P8: 酱板鸭故事 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p8')">P8: 酱板鸭故事</div>
+                    <div class="gantt-cell" style="grid-column: span 3; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">MVP创作</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 5; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">持续迭代运营</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P9: 创始人抖音号 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p9')">P9: 创始人抖音号</div>
+                    <div class="gantt-cell" style="grid-column: span 2; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">启动</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 6; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">持续运营期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+
+                <!-- P10: 门店视频 -->
+                <div class="gantt-row">
+                    <div class="gantt-project-name" onclick="openPRD('p10')">P10: 门店视频</div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 2; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-落地">启动</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 5; background: transparent; padding: 0;">
+                        <div class="gantt-bar bar-运行">持续运营期</div>
+                    </div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                    <div class="gantt-cell" style="background: #4facfe; color: white; font-size: 10px;">复盘</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 项目列表 -->
+        <div class="projects-section">
+            <div class="section-title">📋 项目详情（点击查看完整PRD）</div>
+            <div class="projects-list">
+                <div class="project-row">
+                    <div class="project-id">P1</div>
+                    <div class="project-name">OpenClaw办公室落地</div>
+                    <div class="project-team">技术团队</div>
+                    <div class="project-cycle">周期：2周</div>
+                    <div class="project-budget">预算：内部资源</div>
+                    <button class="view-detail-btn" onclick="openPRD('p1')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P2</div>
+                    <div class="project-name">LLM本地模型部署（财务分析系统）</div>
+                    <div class="project-team">技术团队</div>
+                    <div class="project-cycle">周期：1-2周</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p2')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P3</div>
+                    <div class="project-name">小红书文案支持</div>
+                    <div class="project-team">内容团队</div>
+                    <div class="project-cycle">周期：1-2周</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p3')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P4</div>
+                    <div class="project-name">宝珠官网</div>
+                    <div class="project-team">技术团队</div>
+                    <div class="project-cycle">周期：2-3周</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p4')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P5</div>
+                    <div class="project-name">赠品选型的openclaw选项方式</div>
+                    <div class="project-team">运营团队</div>
+                    <div class="project-cycle">周期：1-2周</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p5')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P6</div>
+                    <div class="project-name">找小说大神，在网文中进行广告植入</div>
+                    <div class="project-team">运营团队</div>
+                    <div class="project-cycle">周期：1-2周(MVP)</div>
+                    <div class="project-budget">预算：<1万</div>
+                    <button class="view-detail-btn" onclick="openPRD('p6')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P7</div>
+                    <div class="project-name">建立部分人的小秘书</div>
+                    <div class="project-team">技术团队</div>
+                    <div class="project-cycle">周期：1-2周</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p7')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P8</div>
+                    <div class="project-name">酱板鸭的故事（创新视频营销）</div>
+                    <div class="project-team">内容团队</div>
+                    <div class="project-cycle">周期：持续迭代</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p8')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P9</div>
+                    <div class="project-name">创始人抖音号（老周）</div>
+                    <div class="project-team">内容团队</div>
+                    <div class="project-cycle">周期：持续迭代</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p9')">查看完整PRD</button>
+                </div>
+                <div class="project-row">
+                    <div class="project-id">P10</div>
+                    <div class="project-name">门店视频</div>
+                    <div class="project-team">内容团队</div>
+                    <div class="project-cycle">周期：持续迭代</div>
+                    <div class="project-budget">预算：小预算</div>
+                    <button class="view-detail-btn" onclick="openPRD('p10')">查看完整PRD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRD详情弹窗 -->
+    <div class="modal" id="prdModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closePRD()">&times;</button>
+            <div id="prdContent"></div>
+        </div>
+    </div>
+
+    <!-- 加入圈子弹窗 -->
+    <div class="modal" id="joinModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeJoinModal()">&times;</button>
+            <div class="modal-header">
+                <h2>🌟 加入宝珠数字化升级圈子</h2>
+                <p>加入圈子，参与项目讨论，获取最新进展，提出您的建议</p>
+            </div>
+
+            <form id="joinForm" onsubmit="submitJoin(event)">
+                <div class="form-group">
+                    <label>姓名 *</label>
+                    <input type="text" name="name" required placeholder="请输入您的姓名">
+                </div>
+
+                <div class="form-group">
+                    <label>手机号 *</label>
+                    <input type="tel" name="phone" required placeholder="请输入您的手机号">
+                </div>
+
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="email" name="email" placeholder="请输入您的邮箱">
+                </div>
+
+                <div class="form-group">
+                    <label>所属部门/公司</label>
+                    <input type="text" name="company" placeholder="请输入您所属的部门或公司">
+                </div>
+
+                <div class="form-group">
+                    <label>感兴趣的项目（可多选）</label>
+                    <select name="interest" multiple style="height: 120px;">
+                        <option value="p1">P1: OpenClaw办公室落地</option>
+                        <option value="p2">P2: LLM本地模型部署</option>
+                        <option value="p3">P3: 小红书文案支持</option>
+                        <option value="p4">P4: 宝珠官网</option>
+                        <option value="p5">P5: 赠品选型</option>
+                        <option value="p6">P6: 小说广告植入</option>
+                        <option value="p7">P7: 小秘书系统</option>
+                        <option value="p8">P8: 酱板鸭故事</option>
+                        <option value="p9">P9: 创始人抖音号</option>
+                        <option value="p10">P10: 门店视频</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>您的建议或需求</label>
+                    <textarea name="suggestion" rows="4" placeholder="请输入您对项目的建议或您的需求"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>希望如何参与</label>
+                    <select name="participation">
+                        <option value="observer">仅观察项目进展</option>
+                        <option value="participant">参与项目讨论</option>
+                        <option value="contributor">贡献内容或资源</option>
+                        <option value="partner">寻求合作机会</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">提交申请</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // PRD 详情数据
+        const prdData = {
+            'p1': {
+                title: 'P1: OpenClaw办公室落地',
+                summary: '在办公室实施 OpenClaw 智能助手系统，提升员工生产力',
+                details: {
+                    目标: '在办公室部署 OpenClaw 智能助手，为员工提供 AI 辅助',
+                    关键功能: ['智能问答', '任务管理', '知识库搜索'],
+                    时间线: [
+                        { 阶段: '部署准备', 时间: '第1周' },
+                        { 阶段: '系统安装', 时间: '第2周' },
+                        { 阶段: '培训使用', 时间: '第3周' },
+                        { 阶段: '正式运行', 时间: '第4周' }
+                    ],
+                    风险: ['员工接受度', '系统稳定性']
+                }
+            },
+            'p2': {
+                title: 'P2: LLM本地模型部署（财务分析系统）',
+                summary: '在本地部署大语言模型，构建财务分析助手',
+                details: {
+                    目标: '本地化部署财务分析系统，保护数据隐私',
+                    关键功能: ['财务报表分析', '趋势预测', '异常检测'],
+                    时间线: [
+                        { 阶段: '模型选型', 时间: '第1周' },
+                        { 阶段: '本地部署', 时间: '第2-3周' },
+                        { 阶段: '数据接入', 时间: '第4周' }
+                    ],
+                    风险: ['GPU资源需求', '数据质量']
+                }
+            },
+            'p3': {
+                title: 'P3: 小红书文案支持',
+                summary: '使用 AI 生成小红书平台营销文案',
+                details: {
+                    目标: '提高小红书内容产出效率',
+                    关键功能: ['标题生成', '正文创作', '配图建议'],
+                    时间线: [
+                        { 阶段: '工具搭建', 时间: '第1-2周' },
+                        { 阶段: '内容测试', 时间: '第3-4周' },
+                        { 阶段: '正式运营', 时间: '第5周起' }
+                    ],
+                    风险: ['平台规则变化', '内容同质化']
+                }
+            },
+            'p4': {
+                title: 'P4: 宝珠官网',
+                summary: '打造宝珠奶酪品牌的官方网站',
+                details: {
+                    目标: '展示品牌形象和产品信息',
+                    关键功能: ['产品展示', '品牌故事', '在线购买'],
+                    时间线: [
+                        { 阶段: '设计稿', 时间: '第1周' },
+                        { 阶段: '前端开发', 时间: '第2周' },
+                        { 阶段: '后端集成', 时间: '第3周' }
+                    ],
+                    风险: ['设计新颖性', '用户转化率']
+                }
+            },
+            'p5': {
+                title: 'P5: 赠品选型的openclaw选项方式',
+                summary: '使用 OpenClaw 系统辅助赠品选型决策',
+                details: {
+                    目标: '优化赠品选型流程',
+                    关键功能: ['数据分析', '方案推荐', '成本评估'],
+                    时间线: [
+                        { 阶段: '数据收集', 时间: '第1周' },
+                        { 阶段: '系统配置', 时间: '第2周' },
+                        { 阶段: '试运行', 时间: '第3周' }
+                    ],
+                    风险: ['数据准确性', '决策依赖']
+                }
+            },
+            'p6': {
+                title: 'P6: 小说广告植入',
+                summary: '在网文中自然植入宝珠产品广告',
+                details: {
+                    目标: '创新营销方式，触达年轻读者',
+                    关键功能: ['作者对接', '内容审核', '效果追踪'],
+                    时间线: [
+                        { 阶段: '作者找寻', 时间: '第1周' },
+                        { 阶段: '合同签署', 时间: '第2周' },
+                        { 阶段: '内容上线', 时间: '第3-4周' }
+                    ],
+                    风险: ['读者反感', '版权问题']
+                }
+            },
+            'p7': {
+                title: 'P7: 建立部分人的小秘书',
+                summary: '为特定人员提供 AI 助理秘书服务',
+                details: {
+                    目标: '提升特定人员的工作效率',
+                    关键功能: ['日程管理', '信息提醒', '任务代办'],
+                    时间线: [
+                        { 阶段: '需求调研', 时间: '第1周' },
+                        { 阶段: '系统搭建', 时间: '第2周' },
+                        { 阶段: '试运行', 时间: '第3周' }
+                    ],
+                    风险: ['隐私保护', '使用习惯']
+                }
+            },
+            'p8': {
+                title: 'P8: 酱板鸭的故事（创新视频营销）',
+                summary: '通过短视频讲述酱板鸭品牌故事',
+                details: {
+                    目标: '提升品牌知名度',
+                    关键功能: ['短视频制作', '社交媒体分发', '互动运营'],
+                    时间线: [
+                        { 阶段: '创意策划', 时间: '第1周' },
+                        { 阶段: '视频拍摄', 时间: '第2周' },
+                        { 阶段: '发布推广', 时间: '第3周起' }
+                    ],
+                    风险: ['创意同质化', '播放量']
+                }
+            },
+            'p9': {
+                title: 'P9: 创始人抖音号（老周）',
+                summary: '打造创始人IP抖音号',
+                details: {
+                    目标: '建立创始人个人IP，提升品牌信任度',
+                    关键功能: ['内容策划', '视频拍摄', '直播互动'],
+                    时间线: [
+                        { 阶段: '账号定位', 时间: '第1周' },
+                        { 阶段: '内容准备', 时间: '第2周' },
+                        { 阶段: '持续运营', 时间: '第3周起' }
+                    ],
+                    风险: ['内容持续性', '粉丝增长']
+                }
+            },
+            'p10': {
+                title: 'P10: 门店视频',
+                summary: '制作门店宣传视频',
+                details: {
+                    目标: '展示门店环境和服务',
+                    关键功能: ['视频拍摄', '后期制作', '线上分发'],
+                    时间线: [
+                        { 阶段: '脚本撰写', 时间: '第1周' },
+                        { 阶段: '现场拍摄', 时间: '第2周' },
+                        { 阶段: '上线推广', 时间: '第3周起' }
+                    ],
+                    风险: ['拍摄质量', '传播效果']
+                }
+            }
+        };
+
+        // 打开 PRD 弹窗
+        function openPRD(id) {
+            const prd = prdData[id];
+            if (!prd) return;
+
+            let html = `<div class="modal-header">
+                <h2>${prd.title}</h2>
+                <p class="meta">${prd.summary}</p>
+            </div>`;
+
+            // 详细信息
+            html += `<div class="prd-section">
+                <h3>📋 项目详情</h3>
+                <div class="info-grid">`;
+            
+            if (prd.details) {
+                html += `<div class="info-item">
+                    <div class="label">项目目标</div>
+                    <div class="value">${prd.details.目标}</div>
+                </div>`;
+                
+                html += `<div class="info-item">
+                    <div class="label">关键功能</div>
+                    <div class="value">${(Array.isArray(prd.details.关键功能) ? prd.details.关键功能.join('<br>') : prd.details.关键功能)}</div>
+                </div>`;
+                
+                // 时间线
+                if (prd.details.时间线) {
+                    html += `<div class="info-item">
+                        <div class="label">时间线</div>
+                        <div class="value">
+                            <div class="timeline-grid">`;
+                    prd.details.时间线.forEach(t => {
+                        html += `<div class="timeline-item">
+                            <div class="phase">${t.阶段}</div>
+                            <div class="date">${t.时间}</div>
+                        </div>`;
+                    });
+                    html += `</div>
+                        </div>
+                    </div>`;
+                }
+                
+                // 风险
+                if (prd.details.风险) {
+                    html += `<div class="info-item">
+                        <div class="label">主要风险</div>
+                        <div class="value">
+                            <div class="risk-list">`;
+                    (Array.isArray(prd.details.风险) ? prd.details.风险 : [prd.details.风险]).forEach(r => {
+                        html += `<div class="risk-item">
+                            <div class="risk-title">⚠️ ${r}</div>
+                            <div class="risk-solution">需制定应对措施</div>
+                        </div>`;
+                    });
+                    html += `</div>
+                        </div>
+                    </div>`;
+                }
+            }
+
+            html += `</div>
+            </div>`;
+
+            document.getElementById('prdContent').innerHTML = html;
+            document.getElementById('prdModal').classList.add('active');
+        }
+
+        // 关闭 PRD 弹窗
+        function closePRD() {
+            document.getElementById('prdModal').classList.remove('active');
+        }
+
+        // 打开加入圈子弹窗
+        function openJoinModal() {
+            document.getElementById('joinModal').classList.add('active');
+        }
+
+        // 关闭加入圈子弹窗
+        function closeJoinModal() {
+            document.getElementById('joinModal').classList.remove('active');
+        }
+
+        // 提交加入申请
+        function submitJoin(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            // 这里可以添加实际的提交逻辑
+            alert('申请已提交！我们会尽快联系您。\n\n申请人：' + data.name + '\n手机号：' + data.phone);
+            
+            closeJoinModal();
+        }
+
+        // 点击外部关闭弹窗
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('prdModal')) {
+                closePRD();
+            }
+            if (event.target == document.getElementById('joinModal')) {
+                closeJoinModal();
+            }
+        }
+    </script>
+</body>
+</html>
