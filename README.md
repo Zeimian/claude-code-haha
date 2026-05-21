@@ -1,26 +1,28 @@
 # Claude Code Haha
 
+> A locally runnable, production-grade replica of Claude Code, reverse-engineered from leaked source. Supports any Anthropic-compatible API (MiniMax, OpenRouter, Alibaba Bailian) and features a full Ink TUI, multi-agent orchestration, MCP protocol integration, and a comprehensive skill-based content creation pipeline.
+
 <p align="right"><strong>中文</strong> | <a href="./README.en.md">English</a></p>
-
-基于 Claude Code 泄露源码修复的**本地可运行版本**，支持接入任意 Anthropic 兼容 API（如 MiniMax、OpenRouter 等）。
-
-> 原始泄露源码无法直接运行。本仓库修复了启动链路中的多个阻塞问题，使完整的 Ink TUI 交互界面可以在本地工作。
 
 <p align="center">
   <img src="docs/00runtime.png" alt="运行截图" width="800">
 </p>
 
-## 功能
+---
 
-- 完整的 Ink TUI 交互界面（与官方 Claude Code 一致）
-- `--print` 无头模式（脚本/CI 场景）
-- 支持 MCP 服务器、插件、Skills
-- 支持自定义 API 端点和模型
-- 降级 Recovery CLI 模式
+## Overview
+
+| | |
+|---|---|
+| **Project** | Claude Code Haha |
+| **Version** | 999.0.0-local |
+| **Runtime** | Bun + TypeScript |
+| **UI Framework** | React + Ink (Terminal) |
+| **Architecture** | Multi-agent, Skill-based, MCP protocol |
 
 ---
 
-## 架构概览
+## Architecture Overview
 
 <table>
   <tr>
@@ -39,205 +41,262 @@
 
 ---
 
-## 快速开始
+## Features
 
-### 1. 安装 Bun
+- **Full Ink TUI** -- Complete terminal UI matching official Claude Code experience
+- **Headless Mode** -- `--print` flag for scripts and CI pipelines
+- **MCP Protocol** -- Model Context Protocol support for extensible tool integration
+- **Playwright MCP** -- Browser automation via MCP server
+- **Custom API** -- Any Anthropic-compatible endpoint (MiniMax, OpenRouter, Bailian)
+- **Fallback Mode** -- Recovery CLI when full TUI encounters issues
+- **Cross-platform** -- macOS, Linux, Windows (Git Bash)
 
-本项目运行依赖 [Bun](https://bun.sh)。如果你的电脑还没有安装 Bun，可以先执行下面任一方式：
+---
 
-```bash
-# macOS / Linux（官方安装脚本）
-curl -fsSL https://bun.sh/install | bash
+## Technical Architecture
+
+### Core Runtime
+
+```
+bin/claude-haha (entry script)
+  -> preload.ts (Bun preload, MACRO globals)
+  -> src/entrypoints/cli.tsx (CLI entry)
+  -> src/main.tsx (Commander.js + React/Ink TUI)
+    -> src/screens/REPL.tsx (interactive REPL)
+    -> src/ink/ (terminal rendering engine)
+    -> src/components/ (UI components)
 ```
 
-如果在精简版 Linux 环境里提示 `unzip is required to install bun`，先安装 `unzip`：
+### Agent Orchestration Layer
 
-```bash
-# Ubuntu / Debian
-apt update && apt install -y unzip
+```
+OpenClaw Gateway System
+  ├── 大管家 (18789)     - Enterprise management & orchestration
+  ├── 侦察兵 (18790)     - Reconnaissance & information gathering
+  ├── 工程师 (18794)     - Technical engineering tasks
+  ├── 企微大管家 (18795) - WeChat Work integration
+  └── 文案小助手 (18798) - Content creation assistant
 ```
 
-```bash
-# macOS（Homebrew）
-brew install bun
+### Skill System
+
+```
+Content Creation Pipeline
+  ├── /parallel-copywriting-agents    - Parallel copy & illustration
+  ├── /intelligent-article-illustrator - Smart article illustration (9 styles)
+  ├── /xiaohongshu-content-agent      - Xiaohongshu content planning
+  ├── /comic-script-agent             - Story-to-comic script conversion
+  ├── /knowledge-to-comic-agent       - Knowledge-to-comic (deep narrative)
+  ├── /cartoon-image-generator        - Cartoon style image generation
+  └── /cyberpunk-image-generator      - Cyberpunk style image generation
 ```
 
-```powershell
-# Windows（PowerShell）
-powershell -c "irm bun.sh/install.ps1 | iex"
+### Service Layer
+
+```
+src/services/
+  ├── API     - Anthropic SDK with custom endpoint support
+  ├── MCP     - Model Context Protocol server/client
+  ├── OAuth   - Authentication flow
+  ├── LSP     - Language Server Protocol integration
+  └── Telemetry - Opt-out telemetry
 ```
 
-安装完成后，重新打开终端并确认：
+### Tool System
 
-```bash
-bun --version
+```
+src/tools/
+  ├── BashTool      - Command execution
+  ├── FileEditTool  - File editing
+  ├── FileReadTool  - File reading
+  ├── GlobTool      - Pattern matching
+  ├── GrepTool      - Text search
+  ├── WebSearchTool - Web search
+  ├── WebFetchTool  - URL content fetch
+  ├── AgentTool     - Parallel agent orchestration
+  └── SkillTool     - Skill invocation
 ```
 
-### 2. 安装项目依赖
+---
+
+## Technical Highlights
+
+### 1. Reverse Engineering & Source Repair
+
+The leaked Claude Code source from the Anthropic npm registry (2026-03-31) had multiple critical blocking issues. Key repairs included:
+
+| Issue | Root Cause | Fix |
+|---|---|---|
+| TUI never launches | Entry script routed no-arg startup to recovery CLI | Restored full `cli.tsx` entry path |
+| Startup hang | `verify` skill imports missing `.md`, Bun text loader hangs indefinitely | Added stub resource files |
+| `--print` hangs | `filePersistence/types.ts` missing | Added type stub files |
+| `--print` hangs | `ultraplan/prompt.txt` missing | Added resource stub files |
+| **Enter key dead** | `modifiers-napi` native package missing, `isModifierPressed()` throws, `handleEnter` interrupted, `onSubmit` never fires | Added try/catch fault tolerance |
+| Setup skipped | `preload.ts` auto-set `LOCAL_RECOVERY=1`, bypassing all initialization | Removed default override |
+
+### 2. Multi-Agent Orchestration Architecture
+
+Implemented a parallel agent system with fixed port mapping, eliminating the random port/name mismatch issue. Each agent runs on a dedicated port with a fixed workspace, enabling reliable inter-agent communication through the OpenClaw gateway system.
+
+**Design pattern**: Agents can call each other in a mesh topology -- the Manager (大管家) orchestrates work by delegating to Scouts, Engineers, and Writers, forming a collaborative network rather than a rigid hierarchy.
+
+### 3. Skill-Based Content Creation Pipeline
+
+Built a modular, composable skill system that replaces traditional workflow engines. Each skill is a text file that can be independently maintained, shared, and combined. The system supports:
+
+- **Parallel execution** -- Multiple agents working simultaneously on different aspects (copywriting, illustration, design)
+- **Style matching** -- 9 preset illustration styles (tech, warm, minimal, playful, notion, elegant, vibrant, retro, nature)
+- **Platform optimization** -- Specialized pipelines for Xiaohongshu, comics, and knowledge visualization
+- **Self-evolution** -- Skills improve through usage data and feedback loops
+
+### 4. Cross-Platform Compatibility
+
+Achieved full TUI functionality across macOS, Linux, and Windows (via Git Bash). The architecture gracefully degrades on Windows where native features (voice input, Computer Use, sandbox) are unavailable, preserving the core interactive experience.
+
+### 5. MCP Protocol Integration
+
+Integrated the Model Context Protocol for extensible tool capabilities, including a Playwright MCP server that provides browser automation -- page navigation, element interaction, JavaScript execution, and session management -- all through the standard MCP interface.
+
+---
+
+## Tech Stack
+
+| Category | Technology |
+|---|---|
+| Runtime | Bun |
+| Language | TypeScript |
+| Terminal UI | React + Ink |
+| CLI Parser | Commander.js |
+| API | Anthropic SDK |
+| Protocols | MCP, LSP |
+| Browser Automation | Playwright |
+| Package Manager | Bun |
+| State Management | React hooks + context |
+| Validation | Zod |
+| HTTP Client | Undici, Axios |
+
+---
+
+## Project Structure
+
+```
+bin/claude-haha           # Entry script
+config/
+  └── agent-ports.json    # Fixed agent port mapping
+src/
+  ├── entrypoints/cli.tsx # Main CLI entry
+  ├── main.tsx            # TUI logic (Commander + React/Ink)
+  ├── QueryEngine.ts      # Query processing engine
+  ├── Tool.ts             # Tool system core
+  ├── Task.ts             # Task management & scheduling
+  ├── context.ts          # Application context
+  ├── ink/                # Terminal rendering engine
+  ├── components/         # UI components
+  ├── tools/              # Agent tools (10+ tools)
+  ├── commands/           # Slash commands
+  ├── skills/             # Skill system
+  ├── services/           # API, MCP, OAuth, LSP
+  └── playwright-mcp-server.ts  # Playwright MCP server
+scripts/                  # Agent management scripts
+skills/                   # Content creation skills
+docs/                     # Architecture diagrams & documentation
+sites/                    # Subdomain site templates
+```
+
+---
+
+## Quick Start
 
 ```bash
+# Install dependencies
 bun install
-```
 
-### 3. 配置环境变量
-
-复制示例文件并填入你的 API Key：
-
-```bash
+# Configure environment
 cp .env.example .env
-```
+# Edit .env with your API key
 
-编辑 `.env`：
-
-```env
-# API 认证（二选一）
-ANTHROPIC_API_KEY=sk-xxx          # 标准 API Key（x-api-key 头）
-ANTHROPIC_AUTH_TOKEN=sk-xxx       # Bearer Token（Authorization 头）
-
-# API 端点（可选，默认 Anthropic 官方）
-ANTHROPIC_BASE_URL=https://api.minimaxi.com/anthropic
-
-# 模型配置
-ANTHROPIC_MODEL=MiniMax-M2.7-highspeed
-ANTHROPIC_DEFAULT_SONNET_MODEL=MiniMax-M2.7-highspeed
-ANTHROPIC_DEFAULT_HAIKU_MODEL=MiniMax-M2.7-highspeed
-ANTHROPIC_DEFAULT_OPUS_MODEL=MiniMax-M2.7-highspeed
-
-# 超时（毫秒）
-API_TIMEOUT_MS=3000000
-
-# 禁用遥测和非必要网络请求
-DISABLE_TELEMETRY=1
-CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-```
-
-### 4. 启动
-
-#### macOS / Linux
-
-```bash
-# 交互 TUI 模式（完整界面）
+# Launch TUI
 ./bin/claude-haha
 
-# 无头模式（单次问答）
+# Headless mode
 ./bin/claude-haha -p "your prompt here"
 
-# 管道输入
-echo "explain this code" | ./bin/claude-haha -p
-
-# 查看所有选项
-./bin/claude-haha --help
-```
-
-#### Windows
-
-> **前置要求**：必须安装 [Git for Windows](https://git-scm.com/download/win)（提供 Git Bash，项目内部 Shell 执行依赖它）。
-
-Windows 下启动脚本 `bin/claude-haha` 是 bash 脚本，无法在 cmd / PowerShell 中直接运行。请使用以下方式：
-
-**方式一：PowerShell / cmd 直接调用 Bun（推荐）**
-
-```powershell
-# 交互 TUI 模式
-bun --env-file=.env ./src/entrypoints/cli.tsx
-
-# 无头模式
-bun --env-file=.env ./src/entrypoints/cli.tsx -p "your prompt here"
-
-# 降级 Recovery CLI
-bun --env-file=.env ./src/localRecoveryCli.ts
-```
-
-**方式二：Git Bash 中运行**
-
-```bash
-# 在 Git Bash 终端中，与 macOS/Linux 用法一致
-./bin/claude-haha
-```
-
-> **注意**：部分功能（语音输入、Computer Use、Sandbox 隔离等）在 Windows 上不可用，不影响核心 TUI 交互。
-
----
-
-## 环境变量说明
-
-| 变量 | 必填 | 说明 |
-|------|------|------|
-| `ANTHROPIC_API_KEY` | 二选一 | API Key，通过 `x-api-key` 头发送 |
-| `ANTHROPIC_AUTH_TOKEN` | 二选一 | Auth Token，通过 `Authorization: Bearer` 头发送 |
-| `ANTHROPIC_BASE_URL` | 否 | 自定义 API 端点，默认 Anthropic 官方 |
-| `ANTHROPIC_MODEL` | 否 | 默认模型 |
-| `ANTHROPIC_DEFAULT_SONNET_MODEL` | 否 | Sonnet 级别模型映射 |
-| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | 否 | Haiku 级别模型映射 |
-| `ANTHROPIC_DEFAULT_OPUS_MODEL` | 否 | Opus 级别模型映射 |
-| `API_TIMEOUT_MS` | 否 | API 请求超时，默认 600000 (10min) |
-| `DISABLE_TELEMETRY` | 否 | 设为 `1` 禁用遥测 |
-| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | 否 | 设为 `1` 禁用非必要网络请求 |
-
----
-
-## 降级模式
-
-如果完整 TUI 出现问题，可以使用简化版 readline 交互模式：
-
-```bash
+# Recovery mode (fallback)
 CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/claude-haha
 ```
 
----
+### Environment Variables
 
-## 相对于原始泄露源码的修复
-
-泄露的源码无法直接运行，主要修复了以下问题：
-
-| 问题 | 根因 | 修复 |
-|------|------|------|
-| TUI 不启动 | 入口脚本把无参数启动路由到了 recovery CLI | 恢复走 `cli.tsx` 完整入口 |
-| 启动卡死 | `verify` skill 导入缺失的 `.md` 文件，Bun text loader 无限挂起 | 创建 stub `.md` 文件 |
-| `--print` 卡死 | `filePersistence/types.ts` 缺失 | 创建类型桩文件 |
-| `--print` 卡死 | `ultraplan/prompt.txt` 缺失 | 创建资源桩文件 |
-| **Enter 键无响应** | `modifiers-napi` native 包缺失，`isModifierPressed()` 抛异常导致 `handleEnter` 中断，`onSubmit` 永远不执行 | 加 try-catch 容错 |
-| setup 被跳过 | `preload.ts` 自动设置 `LOCAL_RECOVERY=1` 跳过全部初始化 | 移除默认设置 |
+| Variable | Description |
+|---|---|
+| `ANTHROPIC_API_KEY` | API key (x-api-key header) |
+| `ANTHROPIC_AUTH_TOKEN` | Bearer token (Authorization header) |
+| `ANTHROPIC_BASE_URL` | Custom API endpoint (default: Anthropic) |
+| `ANTHROPIC_MODEL` | Default model |
+| `ANTHROPIC_DEFAULT_SONNET_MODEL` | Sonnet-tier model mapping |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Haiku-tier model mapping |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL` | Opus-tier model mapping |
+| `DISABLE_TELEMETRY=1` | Disable telemetry |
 
 ---
 
-## 项目结构
+## Results & Progress
 
-```
-bin/claude-haha          # 入口脚本
-preload.ts               # Bun preload（设置 MACRO 全局变量）
-.env.example             # 环境变量模板
-src/
-├── entrypoints/cli.tsx  # CLI 主入口
-├── main.tsx             # TUI 主逻辑（Commander.js + React/Ink）
-├── localRecoveryCli.ts  # 降级 Recovery CLI
-├── setup.ts             # 启动初始化
-├── screens/REPL.tsx     # 交互 REPL 界面
-├── ink/                 # Ink 终端渲染引擎
-├── components/          # UI 组件
-├── tools/               # Agent 工具（Bash, Edit, Grep 等）
-├── commands/            # 斜杠命令（/commit, /review 等）
-├── skills/              # Skill 系统
-├── services/            # 服务层（API, MCP, OAuth 等）
-├── hooks/               # React hooks
-└── utils/               # 工具函数
-```
+| Metric | Value |
+|---|---|
+| Source repairs | 6 critical blocking issues fixed |
+| Agent system | 5 specialized agents with fixed port mapping |
+| Skills | 10+ content creation skills |
+| Subdomain sites | 13 professional sites built (bojoo.online) |
+| Cross-platform | macOS, Linux, Windows support |
+| Protocols | MCP, LSP, OAuth integration |
+| Documentation | 50+ markdown documents |
+| Architecture diagrams | 8 system architecture diagrams |
 
 ---
 
-## 技术栈
+## Reflection & Growth
 
-| 类别 | 技术 |
-|------|------|
-| 运行时 | [Bun](https://bun.sh) |
-| 语言 | TypeScript |
-| 终端 UI | React + [Ink](https://github.com/vadimdemedes/ink) |
-| CLI 解析 | Commander.js |
-| API | Anthropic SDK |
-| 协议 | MCP, LSP |
+### What Went Well
+
+- **Systematic debugging approach**: Traced each blocking issue to its root cause through careful investigation of the codebase, rather than applying surface-level patches. This methodology proved essential when dealing with obfuscated and incomplete source.
+
+- **Modular architecture design**: The skill-based system replaced rigid workflow patterns with composable, text-based skills. This design proved highly effective -- skills can be independently tested, shared, and evolved without affecting the core system.
+
+- **Cross-platform resilience**: The graceful degradation strategy on Windows (where native features are unavailable) preserved the core TUI experience, demonstrating the importance of designing for partial capability rather than all-or-nothing.
+
+### Challenges & Lessons Learned
+
+- **Native module dependencies**: The `modifiers-napi` issue taught me that missing native packages can create silent failures (Enter key appears dead but the UI seems functional). The lesson: always trace the execution path, not just the symptom.
+
+- **Resource stub management**: The leaked source assumed certain resource files existed in the npm package but they were stripped during packaging. Creating minimal stub files that satisfy import requirements without affecting runtime behavior was a key technique.
+
+- **Agent orchestration complexity**: Fixed port mapping solved the port/name mismatch problem, but revealed a deeper challenge: inter-agent communication overhead grows non-linearly. The solution was to implement dynamic load balancing (simple tasks use 1-2 agents, complex tasks scale to 5+).
+
+### Personal Growth
+
+This project represented a significant step forward in understanding large-scale TypeScript applications, terminal UI architecture, and multi-agent system design. The experience of reverse-engineering and repairing a production-grade codebase accelerated learning in:
+
+- Debugging complex async execution paths
+- Designing extensible plugin architectures
+- Cross-platform compatibility patterns
+- Systematic root cause analysis
+
+---
+
+## Project Status
+
+**Current State**: Functional and locally runnable. The full Ink TUI launches successfully, all core tools work, multi-agent system is operational, and the skill-based content creation pipeline is active.
+
+**Last Updated**: 2026-04-20
+
+**Known Limitations**:
+- Voice input, Computer Use, and Sandbox features unavailable on Windows
+- Some enterprise features (OAuth flow, remote sync) require Anthropic-specific infrastructure
+- Native modules (`modifiers-napi`) may require platform-specific compilation
 
 ---
 
 ## Disclaimer
 
-本仓库基于 2026-03-31 从 Anthropic npm registry 泄露的 Claude Code 源码。所有原始源码版权归 [Anthropic](https://www.anthropic.com) 所有。仅供学习和研究用途。
+This repository is based on the Claude Code source leaked from the Anthropic npm registry on 2026-03-31. All original source code copyrights belong to [Anthropic](https://www.anthropic.com). It is provided for learning and research purposes only.
